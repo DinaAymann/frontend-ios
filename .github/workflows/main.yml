@@ -1,0 +1,120 @@
+name: CI/CD for PR
+
+env:
+  # The name of the main module repository
+  main_project_module: app
+
+  # The name of the Play Store
+  playstore_name: Frogobox ID
+
+on:
+  # pull_request:
+  #   branches:
+  #     - "main-test"
+  push:
+    branches:
+     - "eject-mirror"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        #ubuntu
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Set repository name as env variable
+        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu" # See 'Supported distributions' for available options
+          java-version: "17"
+          cache: "gradle"
+      #11
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.18.0"
+
+        # Install dependencies
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Install dependencies
+        run: |
+          npm install react-native
+          npm install @react-native-community/cli-platform-android --force
+
+      - name: Validate Android Configuration
+        run: npx react-native config
+
+
+
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          target: "default" # Change if needed
+          arch: "x86_64"
+
+      - name: Set environment variables
+        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+
+      - name: Increase Gradle memory allocation
+        run: |
+          echo "org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8" >> gradle.properties
+
+      - name: Change Gradle Wrapper Permissions
+        run: |
+          cd android
+          chmod +x ./gradlew
+
+      # - name: Clean project
+      #   run: |
+      #     cd android
+      #     ./gradlew clean
+
+      - name: Build Android App
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Upload APK Release - ${{ env.repository_name }}
+        uses: actions/upload-artifact@v3
+        with:
+              name: ${{ env.date_today }} - Ramses.Superapp - APK(s) release generated
+              path: android/app/build/outputs/apk/release/
+  
+      - name: Upload AAB (App Bundle) Release - ${{ env.repository_name }}
+        uses: actions/upload-artifact@v3
+        with:
+            name: ${{ env.date_today }} - Ramses.Superapp - App bundle(s) AAB release generated
+            path: android/app/build/outputs/bundle/release/
+  
+      - name: Upload to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+                serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+                packageName: com.Ramses.Superapp.org
+                releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+                track: production
+                status: completed

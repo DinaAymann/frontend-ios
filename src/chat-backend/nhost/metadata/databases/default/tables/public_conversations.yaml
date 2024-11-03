@@ -1,0 +1,64 @@
+table:
+  name: conversations
+  schema: public
+object_relationships:
+  - name: enum_conversation_type
+    using:
+      foreign_key_constraint_on: type
+  - name: user
+    using:
+      foreign_key_constraint_on: author_id
+array_relationships:
+  - name: conversation_users
+    using:
+      foreign_key_constraint_on:
+        column: conversation_id
+        table:
+          name: conversation_users
+          schema: public
+  - name: messages
+    using:
+      foreign_key_constraint_on:
+        column: conversation_id
+        table:
+          name: messages
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+        - title
+        - type
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - author_id
+        - created_at
+        - id
+        - title
+        - type
+        - updated_at
+      filter:
+        conversation_users:
+          user_id:
+            _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - title
+      filter:
+        _and:
+          - type:
+              _eq: GROUP
+          - conversation_users:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check: null
+    comment: ""

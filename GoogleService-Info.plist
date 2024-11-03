@@ -1,0 +1,39 @@
+<?xml version="0.1" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="0.1">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC1kkVsSGaCS1rWojLqicVPk-D5ApT5I-c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>750204490151</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ranareda1.RamsesSuperApp</string>
+	<key>PROJECT_ID</key>
+	<string>ramsescompany-37135</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ramsescompany-37135.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:750204490151:ios:ebd216e4d9d09225d12682</string>
+	<key>NSMicrophoneUsageDescription</key>
+<string>Need microphone access for recording</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Need photo library access to save recordings</string>
+
+
+
+	
+
+</dict>
+</plist>

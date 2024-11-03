@@ -1,0 +1,461 @@
+{
+  "language": "Idioma",
+  "home": {
+    "title": "Ramsés",
+    "welcome": "Bem-vindo ao Ramsés, seu aplicativo para a África e o Oriente Médio!",
+    "startButton": "Começar",
+    "terms": "Eu concordo com todos os termos e condições"
+  },
+  "register": {
+    "title": "Número de Telefone",
+    "body": "Por favor, insira seu número de telefone \n para continuar",
+    "textInput": "Número de telefone",
+    "sendCode": "Enviar Código"
+  },
+  "placeholder": {
+    "title": "Número de telefone"
+  },
+  "invalidNumAlert": {
+    "body": "Formato de número de telefone inválido"
+  },
+  "alertTermsError": {
+    "body": "Por favor, concorde com os termos e condições"
+  },
+  "alertConfirm": {
+    "title": "Confirmação do Número de Telefone",
+    "body": "Nós enviaremos um código de verificação para o seguinte número:"
+  },
+  "codeConfirmation": {
+    "title": "Digite Seu Código",
+    "body": "Digite o código enviado a você via SMS \n para completar o processo",
+    "confirmButton": "Confirmar",
+    "reSendCode": "Reenviar Código",
+    "reSendinCode": "Reenviar em"
+  },
+  "success": {
+    "body": "Sua conta foi verificada com sucesso!!",
+    "confirmButton": "Continuar"
+  },
+  "countries": [
+    {
+      "name": "Argélia",
+      "flag": "🇩🇿",
+      "code": "DZ",
+      "dial_code": "+213",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Angola",
+      "flag": "🇦🇴",
+      "code": "AO",
+      "dial_code": "+244",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Bahrein",
+      "flag": "🇧🇭",
+      "code": "BH",
+      "dial_code": "+973",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Benin",
+      "flag": "🇧🇯",
+      "code": "BJ",
+      "dial_code": "+229",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Botswana",
+      "flag": "🇧🇼",
+      "code": "BW",
+      "dial_code": "+267",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Burquina Faso",
+      "flag": "🇧🇫",
+      "code": "BF",
+      "dial_code": "+226",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Burundi",
+      "flag": "🇧🇮",
+      "code": "BI",
+      "dial_code": "+257",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Camarões",
+      "flag": "🇨🇲",
+      "code": "CM",
+      "dial_code": "+237",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Cabo Verde",
+      "flag": "🇨🇻",
+      "code": "CV",
+      "dial_code": "+238",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "República Centro-Africana",
+      "flag": "🇨🇫",
+      "code": "CF",
+      "dial_code": "+236",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Chade",
+      "flag": "🇹🇩",
+      "code": "TD",
+      "dial_code": "+235",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Comores",
+      "flag": "🇰🇲",
+      "code": "KM",
+      "dial_code": "+269",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Congo",
+      "flag": "🇨🇬",
+      "code": "CG",
+      "dial_code": "+242",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "República Democrática do Congo",
+      "flag": "🇨🇩",
+      "code": "CD",
+      "dial_code": "+243",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Chipre",
+      "flag": "🇨🇾",
+      "code": "CY",
+      "dial_code": "+357",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Costa do Marfim",
+      "flag": "🇨🇮",
+      "code": "CI",
+      "dial_code": "+225",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Djibuti",
+      "flag": "🇩🇯",
+      "code": "DJ",
+      "dial_code": "+253",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Egito",
+      "flag": "🇪🇬",
+      "code": "EG",
+      "dial_code": "+20",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Guiné Equatorial",
+      "flag": "🇬🇶",
+      "code": "GQ",
+      "dial_code": "+240",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Eritreia",
+      "flag": "🇪🇷",
+      "code": "ER",
+      "dial_code": "+291",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Etiópia",
+      "flag": "🇪🇹",
+      "code": "ET",
+      "dial_code": "+251",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gabão",
+      "flag": "🇬🇦",
+      "code": "GA",
+      "dial_code": "+241",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gâmbia",
+      "flag": "🇬🇲",
+      "code": "GM",
+      "dial_code": "+220",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Gana",
+      "flag": "🇬🇭",
+      "code": "GH",
+      "dial_code": "+233",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Guiné",
+      "flag": "🇬🇳",
+      "code": "GN",
+      "dial_code": "+224",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Guiné-Bissau",
+      "flag": "🇬🇼",
+      "code": "GW",
+      "dial_code": "+245",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Irã",
+      "flag": "🇮🇷",
+      "code": "IR",
+      "dial_code": "+98",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Iraque",
+      "flag": "🇮🇶",
+      "code": "IQ",
+      "dial_code": "+964",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Israel",
+      "flag": "🇮🇱",
+      "code": "IL",
+      "dial_code": "+972",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Jordânia",
+      "flag": "🇯🇴",
+      "code": "JO",
+      "dial_code": "+962",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Quênia",
+      "flag": "🇰🇪",
+      "code": "KE",
+      "dial_code": "+254",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Kuwait",
+      "flag": "🇰🇼",
+      "code": "KW",
+      "dial_code": "+965",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Líbano",
+      "flag": "🇱🇧",
+      "code": "LB",
+      "dial_code": "+961",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Lesoto",
+      "flag": "🇱🇸",
+      "code": "LS",
+      "dial_code": "+266",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Libéria",
+      "flag": "🇱🇷",
+      "code": "LR",
+      "dial_code": "+231",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Líbia",
+      "flag": "🇱🇾",
+      "code": "LY",
+      "dial_code": "+218",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Madagascar",
+      "flag": "🇲🇬",
+      "code": "MG",
+      "dial_code": "+261",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Malawi",
+      "flag": "🇲🇼",
+      "code": "MW",
+      "dial_code": "+265",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Mali",
+      "flag": "🇲🇱",
+      "code": "ML",
+      "dial_code": "+223",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Mauritânia",
+      "flag": "🇲🇷",
+      "code": "MR",
+      "dial_code": "+222",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Maurício",
+      "flag": "🇲🇺",
+      "code": "MU",
+      "dial_code": "+230",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Marrocos",
+      "flag": "🇲🇦",
+      "code": "MA",
+      "dial_code": "+212",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Moçambique",
+      "flag": "🇲🇿",
+      "code": "MZ",
+      "dial_code": "+258",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Namíbia",
+      "flag": "🇳🇦",
+      "code": "NA",
+      "dial_code": "+264",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Nigéria",
+      "flag": "🇳🇬",
+      "code": "NG",
+      "dial_code": "+234",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Ruanda",
+      "flag": "🇷🇼",
+      "code": "RW",
+      "dial_code": "+250",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Arábia Saudita",
+      "flag": "🇸🇦",
+      "code": "SA",
+      "dial_code": "+966",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Seicheles",
+      "flag": "🇸🇨",
+      "code": "SC",
+      "dial_code": "+248",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Serra Leoa",
+      "flag": "🇸🇱",
+      "code": "SL",
+      "dial_code": "+232",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Somália",
+      "flag": "🇸🇴",
+      "code": "SO",
+      "dial_code": "+252",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "África do Sul",
+      "flag": "🇿🇦",
+      "code": "ZA",
+      "dial_code": "+27",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Sudão do Sul",
+      "flag": "🇸🇸",
+      "code": "SS",
+      "dial_code": "+211",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Sudão",
+      "flag": "🇸🇩",
+      "code": "SD",
+      "dial_code": "+249",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Suazilândia",
+      "flag": "🇸🇿",
+      "code": "SZ",
+      "dial_code": "+268",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Tanzânia",
+      "flag": "🇹🇿",
+      "code": "TZ",
+      "dial_code": "+255",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Togo",
+      "flag": "🇹🇬",
+      "code": "TG",
+      "dial_code": "+228",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Tunísia",
+      "flag": "🇹🇳",
+      "code": "TN",
+      "dial_code": "+216",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Uganda",
+      "flag": "🇺🇬",
+      "code": "UG",
+      "dial_code": "+256",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Zâmbia",
+      "flag": "🇿🇲",
+      "code": "ZM",
+      "dial_code": "+260",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Zimbábue",
+      "flag": "🇿🇼",
+      "code": "ZW",
+      "dial_code": "+263",
+      "needsLeadingZero": false
+    }
+  ]
+}

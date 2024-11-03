@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Ramses",
+    "slug": "rana",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ranareda1.RamsesSuperApp",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.ranareda1.RamsesSuperApp"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-font"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a09b2e86-adcb-4610-8ec0-7f7db11494e0"
+      }
+    }
+  }
+}

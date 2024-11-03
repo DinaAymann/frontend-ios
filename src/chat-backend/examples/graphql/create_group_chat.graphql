@@ -1,0 +1,5 @@
+mutation CreateGroupChat {
+    insert_conversations_one(object: {type: "GROUP", title: "Group Title", conversation_users: {data: [{user_id: "3ead2bbb-0934-4d77-a456-86cfb8762395"}, {user_id: "bd1cdaae-5704-4b41-a82a-9d5ff7a40312"}, {user_id: "59beaa42-e0b7-434a-9870-39f22b170d89"}]}}) {
+        id
+    }
+}

@@ -1,0 +1,461 @@
+{
+  "language": "ቋንቋ",
+  "home": {
+    "title": "ራምሴስ",
+    "welcome": "ራምሴስ ወደ አፍሪካ እና መካከለኛ ምስል እንኳን ወደ ተመለስከ!",
+    "startButton": "መጀመር",
+    "terms": "ከተለያዩ መሠረቶች ጋር እቅፍ ነኝ"
+  },
+  "register": {
+    "title": "የስልክ ቁጥር",
+    "body": "እባኮትን ወደ ቀጣይ ይሂዱ \n የስልክ ቁጥርዎን አስቀምጡ",
+    "textInput": "የስልክ ቁጥር",
+    "sendCode": "ኮድ እንደላክ"
+  },
+  "placeholder": {
+    "title": "የስልክ ቁጥር"
+  },
+  "invalidNumAlert": {
+    "body": "የስልክ ቁጥር ፎርማት ይወስዳል"
+  },
+  "alertTermsError": {
+    "body": "እባኮትን የአቅጣጫዎችንና መመሪያዎችን ተቀብሉ"
+  },
+  "alertConfirm": {
+    "title": "የስልክ ቁጥር ማረጋገጫ",
+    "body": "በታች የታወቀ ቁጥር ወደ ዋስት ኮድ ይልከዋል:"
+  },
+  "codeConfirmation": {
+    "title": "ኮድዎን ይገባ",
+    "body": "ወደ SMS የተላከውን ኮድ ይገባ \n የሂደትን እንዲወድቅ ምስለው",
+    "confirmButton": "እርግጠኝ",
+    "reSendCode": "ኮድ ይቀጥሉ",
+    "reSendinCode": "ወደዚያ ቀጥሉ"
+  },
+  "success": {
+    "body": "የእርስዎ አካውንት በተሳካ ሁኔታ ተመለስልኝ!!",
+    "confirmButton": "ይቀጥሉ"
+  },
+  "countries": [
+    {
+      "name": "አርጄሊያ",
+      "flag": "🇩🇿",
+      "code": "DZ",
+      "dial_code": "+213",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "አንጎላ",
+      "flag": "🇦🇴",
+      "code": "AO",
+      "dial_code": "+244",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ባሄሪን",
+      "flag": "🇧🇭",
+      "code": "BH",
+      "dial_code": "+973",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቤኒን",
+      "flag": "🇧🇯",
+      "code": "BJ",
+      "dial_code": "+229",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቦትስዋና",
+      "flag": "🇧🇼",
+      "code": "BW",
+      "dial_code": "+267",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቡርኪና ፋሱ",
+      "flag": "🇧🇫",
+      "code": "BF",
+      "dial_code": "+226",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቡሩንዲ",
+      "flag": "🇧🇮",
+      "code": "BI",
+      "dial_code": "+257",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ካማሮን",
+      "flag": "🇨🇲",
+      "code": "CM",
+      "dial_code": "+237",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ካብይ ቬርዴ",
+      "flag": "🇨🇻",
+      "code": "CV",
+      "dial_code": "+238",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሪፐብሊክ ኬንትራል አፍሪቃ",
+      "flag": "🇨🇫",
+      "code": "CF",
+      "dial_code": "+236",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቻዴ",
+      "flag": "🇹🇩",
+      "code": "TD",
+      "dial_code": "+235",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኮሞሪያ",
+      "flag": "🇰🇲",
+      "code": "KM",
+      "dial_code": "+269",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኮንጎ",
+      "flag": "🇨🇬",
+      "code": "CG",
+      "dial_code": "+242",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ዴሞክራቲክ ኮንጎ",
+      "flag": "🇨🇩",
+      "code": "CD",
+      "dial_code": "+243",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ቺፕር",
+      "flag": "🇨🇾",
+      "code": "CY",
+      "dial_code": "+357",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኮስታ ዶ ማርፊን",
+      "flag": "🇨🇮",
+      "code": "CI",
+      "dial_code": "+225",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ጅቡቲ",
+      "flag": "🇩🇯",
+      "code": "DJ",
+      "dial_code": "+253",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ግብጽ",
+      "flag": "🇪🇬",
+      "code": "EG",
+      "dial_code": "+20",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ኪንያ ኢትዮጵያ",
+      "flag": "🇬🇶",
+      "code": "GQ",
+      "dial_code": "+240",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኤሪትራ",
+      "flag": "🇪🇷",
+      "code": "ER",
+      "dial_code": "+291",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኢትዮጵያ",
+      "flag": "🇪🇹",
+      "code": "ET",
+      "dial_code": "+251",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ጋቦን",
+      "flag": "🇬🇦",
+      "code": "GA",
+      "dial_code": "+241",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ገምብያ",
+      "flag": "🇬🇲",
+      "code": "GM",
+      "dial_code": "+220",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ጋና",
+      "flag": "🇬🇭",
+      "code": "GH",
+      "dial_code": "+233",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ጉንይ",
+      "flag": "🇬🇳",
+      "code": "GN",
+      "dial_code": "+224",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ጉንይ ቢሳው",
+      "flag": "🇬🇼",
+      "code": "GW",
+      "dial_code": "+245",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ኢራን",
+      "flag": "🇮🇷",
+      "code": "IR",
+      "dial_code": "+98",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ኢራቅ",
+      "flag": "🇮🇶",
+      "code": "IQ",
+      "dial_code": "+964",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "እስሬኤል",
+      "flag": "🇮🇱",
+      "code": "IL",
+      "dial_code": "+972",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ጆርዳን",
+      "flag": "🇯🇴",
+      "code": "JO",
+      "dial_code": "+962",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ኬንያ",
+      "flag": "🇰🇪",
+      "code": "KE",
+      "dial_code": "+254",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ኩዌታ",
+      "flag": "🇰🇼",
+      "code": "KW",
+      "dial_code": "+965",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሊባኖ",
+      "flag": "🇱🇧",
+      "code": "LB",
+      "dial_code": "+961",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ሌሶቶ",
+      "flag": "🇱🇸",
+      "code": "LS",
+      "dial_code": "+266",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሊበሪያ",
+      "flag": "🇱🇷",
+      "code": "LR",
+      "dial_code": "+231",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ሊቢያ",
+      "flag": "🇱🇾",
+      "code": "LY",
+      "dial_code": "+218",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ማዳግራስካር",
+      "flag": "🇲🇬",
+      "code": "MG",
+      "dial_code": "+261",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ማላውይ",
+      "flag": "🇲🇼",
+      "code": "MW",
+      "dial_code": "+265",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ማሊ",
+      "flag": "🇲🇱",
+      "code": "ML",
+      "dial_code": "+223",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ማሪቶኒያ",
+      "flag": "🇲🇹",
+      "code": "MR",
+      "dial_code": "+222",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ማስዋ",
+      "flag": "🇲🇦",
+      "code": "MA",
+      "dial_code": "+212",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ምዕመላላይ",
+      "flag": "🇲🇿",
+      "code": "MZ",
+      "dial_code": "+258",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "አርቦኒያ",
+      "flag": "🇳🇱",
+      "code": "NL",
+      "dial_code": "+31",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "አዳም",
+      "flag": "🇳🇪",
+      "code": "NE",
+      "dial_code": "+227",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ኒጄር",
+      "flag": "🇳🇬",
+      "code": "NG",
+      "dial_code": "+234",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ሩዋንዳ",
+      "flag": "🇷🇼",
+      "code": "RW",
+      "dial_code": "+250",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ሳውዲ አራቢያ",
+      "flag": "🇸🇦",
+      "code": "SA",
+      "dial_code": "+966",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ሴችልስ",
+      "flag": "🇸🇨",
+      "code": "SC",
+      "dial_code": "+248",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሴራ ሊያኦ",
+      "flag": "🇸🇱",
+      "code": "SL",
+      "dial_code": "+232",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሶማሊያ",
+      "flag": "🇸🇴",
+      "code": "SO",
+      "dial_code": "+252",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ደቡብ አፍሪካ",
+      "flag": "🇿🇦",
+      "code": "ZA",
+      "dial_code": "+27",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ደቡብ ሱዳን",
+      "flag": "🇸🇸",
+      "code": "SS",
+      "dial_code": "+211",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሱዳን",
+      "flag": "🇸🇩",
+      "code": "SD",
+      "dial_code": "+249",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ሱዋዚላንድ",
+      "flag": "🇸🇿",
+      "code": "SZ",
+      "dial_code": "+268",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ታንዛኒያ",
+      "flag": "🇹🇿",
+      "code": "TZ",
+      "dial_code": "+255",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ቶጎ",
+      "flag": "🇹🇬",
+      "code": "TG",
+      "dial_code": "+228",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ቱኒዚያ",
+      "flag": "🇹🇳",
+      "code": "TN",
+      "dial_code": "+216",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "ዩጋንዳ",
+      "flag": "🇺🇬",
+      "code": "UG",
+      "dial_code": "+256",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ዛምቢያ",
+      "flag": "🇿🇲",
+      "code": "ZM",
+      "dial_code": "+260",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "ዚምባቡዌ",
+      "flag": "🇿🇼",
+      "code": "ZW",
+      "dial_code": "+263",
+      "needsLeadingZero": false
+    }
+  ]
+}

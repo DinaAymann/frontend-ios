@@ -1,0 +1,20 @@
+subscription WatchConversation {
+    conversations_by_pk(id: "e158895a-d3cd-41d9-922a-6d3ece668d9a") {
+        created_at
+        type
+        title
+        messages {
+            text
+            created_at
+            user {
+                displayName
+                avatarUrl
+            }
+            file {
+                id
+                mimeType
+                size
+            }
+        }
+    }
+}

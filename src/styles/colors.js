@@ -1,0 +1,17 @@
+export default {
+  white: "#ffffff",
+  black: "#000",
+  grey: "#ccc",
+  lightGrey: "#ddd",
+  lightGrey2: "#f5f5f5",
+  darkGrey: "#111",
+  purple: "#820AD1",
+  red: "#DC1D1D",
+  green: "#4BB543",
+  blue: "#007AFF",
+  inactive: "#e8e8e8",
+  grey2: "#666",
+  grey3: "#999",
+  taxReceiptHeaderBackground: "#F0F0F0",
+  complementaryYellow: "#FFFF00",
+};

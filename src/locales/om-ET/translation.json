@@ -1,0 +1,461 @@
+{
+  "language": "Afaan",
+  "home": {
+    "title": "Ramses",
+    "welcome": "Ramses, app keessan Aafrikaa fi Baha Giddu Galeessaa!",
+    "startButton": "Jalqabu",
+    "terms": "Seera fi haala hundaaf nan waliigala"
+  },
+  "register": {
+    "title": "Lakkofsa Bilbilaa",
+    "body": "Maamilaa bilbilaa keessan galchuu \n itti fufuu barbaachisa",
+    "textInput": "Lakkofsa bilbilaa",
+    "sendCode": "Koodii ergaa"
+  },
+  "placeholder": {
+    "title": "Lakkofsa bilbilaa"
+  },
+  "invalidNumAlert": {
+    "body": "Akkasumas lakkofsi bilbilaa dogoggora"
+  },
+  "alertTermsError": {
+    "body": "Mee seerota fi haala waliigalaaf"
+  },
+  "alertConfirm": {
+    "title": "Waliigalte lakkofsa bilbilaa",
+    "body": "Koodii mirkaneessaa lakkofsa armaan gadii gahiidha:"
+  },
+  "codeConfirmation": {
+    "title": "Koodii keeti galchi",
+    "body": "SMS irratti siif ergame koodii galchi \n hojii xumuruu",
+    "confirmButton": "Mirkaneessi",
+    "reSendCode": "Koodii deebi'aa ergaa",
+    "reSendinCode": "Deebi'aa"
+  },
+  "success": {
+    "body": "Akkaawuntii kee milkiidhaan mirkanaa'e!!",
+    "confirmButton": "Itti fufi"
+  },
+  "countries": [
+    {
+      "name": "Aljeeriya",
+      "flag": "🇩🇿",
+      "code": "DZ",
+      "dial_code": "+213",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Angoolaa",
+      "flag": "🇦🇴",
+      "code": "AO",
+      "dial_code": "+244",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Bahreeni",
+      "flag": "🇧🇭",
+      "code": "BH",
+      "dial_code": "+973",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Beniin",
+      "flag": "🇧🇯",
+      "code": "BJ",
+      "dial_code": "+229",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Botswaanaa",
+      "flag": "🇧🇼",
+      "code": "BW",
+      "dial_code": "+267",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Burkiinaa Faasoo",
+      "flag": "🇧🇫",
+      "code": "BF",
+      "dial_code": "+226",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Burundii",
+      "flag": "🇧🇮",
+      "code": "BI",
+      "dial_code": "+257",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Kaameeroon",
+      "flag": "🇨🇲",
+      "code": "CM",
+      "dial_code": "+237",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Kaap Verdi",
+      "flag": "🇨🇻",
+      "code": "CV",
+      "dial_code": "+238",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Rippebulika Afriikaa Gidduugaleessaa",
+      "flag": "🇨🇫",
+      "code": "CF",
+      "dial_code": "+236",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Chaad",
+      "flag": "🇹🇩",
+      "code": "TD",
+      "dial_code": "+235",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Koonaamooros",
+      "flag": "🇰🇲",
+      "code": "KM",
+      "dial_code": "+269",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Koongoo",
+      "flag": "🇨🇬",
+      "code": "CG",
+      "dial_code": "+242",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Koongoo DRC",
+      "flag": "🇨🇩",
+      "code": "CD",
+      "dial_code": "+243",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Qipiroos",
+      "flag": "🇨🇾",
+      "code": "CY",
+      "dial_code": "+357",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Koote Diivoor",
+      "flag": "🇨🇮",
+      "code": "CI",
+      "dial_code": "+225",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Jibuutii",
+      "flag": "🇩🇯",
+      "code": "DJ",
+      "dial_code": "+253",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Misira",
+      "flag": "🇪🇬",
+      "code": "EG",
+      "dial_code": "+20",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gini Equatoriyaalii",
+      "flag": "🇬🇶",
+      "code": "GQ",
+      "dial_code": "+240",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Eritiraa",
+      "flag": "🇪🇷",
+      "code": "ER",
+      "dial_code": "+291",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Itoophiyaa",
+      "flag": "🇪🇹",
+      "code": "ET",
+      "dial_code": "+251",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gaaboon",
+      "flag": "🇬🇦",
+      "code": "GA",
+      "dial_code": "+241",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gaambiyaa",
+      "flag": "🇬🇲",
+      "code": "GM",
+      "dial_code": "+220",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Ganaa",
+      "flag": "🇬🇭",
+      "code": "GH",
+      "dial_code": "+233",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Gini",
+      "flag": "🇬🇳",
+      "code": "GN",
+      "dial_code": "+224",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Gini-Bisaawu",
+      "flag": "🇬🇼",
+      "code": "GW",
+      "dial_code": "+245",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Iraan",
+      "flag": "🇮🇷",
+      "code": "IR",
+      "dial_code": "+98",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Iraaq",
+      "flag": "🇮🇶",
+      "code": "IQ",
+      "dial_code": "+964",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Isra'eel",
+      "flag": "🇮🇱",
+      "code": "IL",
+      "dial_code": "+972",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Urdun",
+      "flag": "🇯🇴",
+      "code": "JO",
+      "dial_code": "+962",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Keeniyaa",
+      "flag": "🇰🇪",
+      "code": "KE",
+      "dial_code": "+254",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Kuweeti",
+      "flag": "🇰🇼",
+      "code": "KW",
+      "dial_code": "+965",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Lebanoon",
+      "flag": "🇱🇧",
+      "code": "LB",
+      "dial_code": "+961",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Leesootoo",
+      "flag": "🇱🇸",
+      "code": "LS",
+      "dial_code": "+266",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Liberiyaa",
+      "flag": "🇱🇷",
+      "code": "LR",
+      "dial_code": "+231",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Libiyaa",
+      "flag": "🇱🇾",
+      "code": "LY",
+      "dial_code": "+218",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Madagaaskaar",
+      "flag": "🇲🇬",
+      "code": "MG",
+      "dial_code": "+261",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Maalaawwii",
+      "flag": "🇲🇼",
+      "code": "MW",
+      "dial_code": "+265",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Maalii",
+      "flag": "🇲🇱",
+      "code": "ML",
+      "dial_code": "+223",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Mawritaniyaa",
+      "flag": "🇲🇹",
+      "code": "MR",
+      "dial_code": "+222",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Moorokoo",
+      "flag": "🇲🇦",
+      "code": "MA",
+      "dial_code": "+212",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Mozaambik",
+      "flag": "🇲🇿",
+      "code": "MZ",
+      "dial_code": "+258",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Netherlaands",
+      "flag": "🇳🇱",
+      "code": "NL",
+      "dial_code": "+31",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Nijeer",
+      "flag": "🇳🇪",
+      "code": "NE",
+      "dial_code": "+227",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Naayjeeriyaa",
+      "flag": "🇳🇬",
+      "code": "NG",
+      "dial_code": "+234",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Ruwaandaa",
+      "flag": "🇷🇼",
+      "code": "RW",
+      "dial_code": "+250",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Araa'iba Sawudii",
+      "flag": "🇸🇦",
+      "code": "SA",
+      "dial_code": "+966",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Seeychels",
+      "flag": "🇸🇨",
+      "code": "SC",
+      "dial_code": "+248",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Seeraaliyoon",
+      "flag": "🇸🇱",
+      "code": "SL",
+      "dial_code": "+232",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Soomaaliyaa",
+      "flag": "🇸🇴",
+      "code": "SO",
+      "dial_code": "+252",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Afriikaa Kibbaa",
+      "flag": "🇿🇦",
+      "code": "ZA",
+      "dial_code": "+27",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Sudaan Kibbaa",
+      "flag": "🇸🇸",
+      "code": "SS",
+      "dial_code": "+211",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Sudaan",
+      "flag": "🇸🇩",
+      "code": "SD",
+      "dial_code": "+249",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Eswaatiinii",
+      "flag": "🇸🇿",
+      "code": "SZ",
+      "dial_code": "+268",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Taanzaniyaa",
+      "flag": "🇹🇿",
+      "code": "TZ",
+      "dial_code": "+255",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Toogoo",
+      "flag": "🇹🇬",
+      "code": "TG",
+      "dial_code": "+228",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Tuunisiyaa",
+      "flag": "🇹🇳",
+      "code": "TN",
+      "dial_code": "+216",
+      "needsLeadingZero": false
+    },
+    {
+      "name": "Ugaandaa",
+      "flag": "🇺🇬",
+      "code": "UG",
+      "dial_code": "+256",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Zaambiyaa",
+      "flag": "🇿🇲",
+      "code": "ZM",
+      "dial_code": "+260",
+      "needsLeadingZero": true
+    },
+    {
+      "name": "Ziimbaabuwee",
+      "flag": "🇿🇼",
+      "code": "ZW",
+      "dial_code": "+263",
+      "needsLeadingZero": false
+    }
+  ]
+}

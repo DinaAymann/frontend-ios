@@ -1,0 +1,10 @@
+query GetEnumsList {
+    enum_conversation_role {
+        value
+        comment
+    }
+    enum_conversation_type {
+        comment
+        value
+    }
+}

@@ -1,0 +1,114 @@
+name: CI/CD-IOS for PR
+
+env:
+  APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+  APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+  APPLE_ISSUER_ID: ${{ secrets.APPLE_TEAM_ID }}
+  APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+  APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+  MATCH_PASSWORD: ${{secrets.MATCH_PASSWORD}}
+  ASC_JSON_KEY: ${{secrets.ASC_JSON_KEY}}
+  MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
+
+on:
+  pull_request:
+    branches:
+      - "main-test"
+      - "main"
+  push:
+    branches:
+      - "CI-CD(combined)"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  ios-build-and-deploy:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.18.0"
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Install Pods for iOS dependencies
+        run: |
+          cd ios
+          pod install
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: ios
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+
+      - name: Install Bundler
+        run: gem install bundler -v 2.4.22
+
+      - name: Install gems
+        run: bundle install
+
+      #already done
+      # - name: Install Fastlane
+      #   run: |
+      #     sudo gem install fastlane
+
+      - name: Setup app stre connect
+        run: echo "${{ secrets.APP_STORE_JSON_SECRET }}"  >> ./fastlane/store.json
+
+      - name: Build and Deploy using Fastlane
+        run: |
+          cd ios
+          bundle exec fastlane ios beta
+      # to the store.json
+      # - name: Build and Deploy
+      #   env:
+      #     APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+      #     APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
+      #     APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+      #     APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      #     APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+
+      #   run: |
+      #     cd ios
+      #     bundle exec fastlane build
+      #lane
+
+      # - name: Build iOS project
+      #   run: |
+      #     cd ios
+      #     xcodebuild -workspace Ramses.xcworkspace -scheme "Ramses" -sdk iphoneos -configuration Release archive -archivePath $PWD/build/Ramses.xcarchive -allowProvisioningUpdates
+
+      # - name: Export .ipa file
+      #   run: |
+      #     cd ios
+      #     xcodebuild -exportArchive -archivePath $PWD/build/AppName.xcarchive -exportPath $PWD/build -exportOptionsPlist exportOptions.plist
+
+      # - name: Authenticate with App Store Connect
+      #   run: |
+      #     echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" > ~/AuthKey.p8
+      #   env:
+      #     APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+
+      # - name: Upload to TestFlight
+      #   run: |
+      #     xcrun altool --upload-app -f ios/build/AppName.ipa -t ios -u "${{ secrets.APPLE_APP_ID }}" -p "${{ secrets.APP_SPECIFIC_PASSWORD }}" --apiKey ${{ secrets.APPLE_KEY_ID }} --apiIssuer ${{ secrets.APPLE_ISSUER_ID }}

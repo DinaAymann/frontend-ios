@@ -1,0 +1,5 @@
+mutation CreateOneToOneChat {
+    insert_conversations_one(object: {type: "ONE_TO_ONE", conversation_users: {data: [{user_id: "696759c9-c057-47ef-92bc-1445401b5222"}, {user_id: "62ec9f89-6b21-4f48-b07a-9219b51cd971"}]}}) {
+        id
+    }
+}

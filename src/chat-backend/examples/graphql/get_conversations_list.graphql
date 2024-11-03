@@ -1,0 +1,14 @@
+query GetConversationsList {
+    conversations {
+        id
+        title
+        type
+        updated_at
+        conversation_users {
+            user {
+                id
+                displayName
+            }
+        }
+    }
+}

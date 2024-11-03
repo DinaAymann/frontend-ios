@@ -1,0 +1,461 @@
+{
+  "language": "اللغة",
+  "home": {
+    "title": "Ramses",
+    "welcome": "مرحبًا بكم في رامسيس، تطبيقكم لأفريقيا والشرق الأوسط!",
+    "startButton": "ابدأ",
+    "terms": "أوافق على جميع الشروط والأحكام"
+  },
+  "register": {
+    "title": "رقم الهاتف",
+    "body": "يرجى إدخال رقم هاتفك \n للمتابعة",
+    "textInput": "رقم الهاتف",
+    "sendCode": "إرسال الرمز"
+  },
+  "placeholder": {
+    "title": "رقم الهاتف"
+  },
+  "invalidNumAlert": {
+    "body": "تنسيق رقم الهاتف غير صالح"
+  },
+  "alertTermsError": {
+    "body": "لطفاً با شرایط و ضوابط موافقت کنید"
+  },
+  "alertConfirm": {
+    "title": "تأكيد رقم الهاتف",
+    "body": "سنرسل رمز التحقق إلى الرقم التالي:"
+  },
+  "codeConfirmation": {
+    "title": "أدخل رمزك",
+    "body": "أدخل الرمز الذي تم إرساله إليك عبر الرسائل النصية \n لإكمال العملية",
+    "confirmButton": "تأكيد",
+    "reSendCode": "إعادة إرسال الرمز",
+    "reSendinCode": "إعادة الإرسال في"
+  },
+  "success": {
+    "body": "تم التحقق من حسابك بنجاح !!",
+    "confirmButton": "استمر"
+  },
+  "countries": {
+    "الجزایر": {
+      "name": "الجزایر",
+      "flag": "🇩🇿",
+      "code": "DZ",
+      "dial_code": "+213",
+      "needsLeadingZero": true
+    },
+    "آنگولا": {
+      "name": "آنگولا",
+      "flag": "🇦🇴",
+      "code": "AO",
+      "dial_code": "+244",
+      "needsLeadingZero": false
+    },
+    "بحرین": {
+      "name": "بحرین",
+      "flag": "🇧🇭",
+      "code": "BH",
+      "dial_code": "+973",
+      "needsLeadingZero": false
+    },
+    "بنین": {
+      "name": "بنین",
+      "flag": "🇧🇯",
+      "code": "BJ",
+      "dial_code": "+229",
+      "needsLeadingZero": false
+    },
+    "بوتسوانا": {
+      "name": "بوتسوانا",
+      "flag": "🇧🇼",
+      "code": "BW",
+      "dial_code": "+267",
+      "needsLeadingZero": false
+    },
+    "بورکینافاسو": {
+      "name": "بورکینافاسو",
+      "flag": "🇧🇫",
+      "code": "BF",
+      "dial_code": "+226",
+      "needsLeadingZero": false
+    },
+    "بوروندی": {
+      "name": "بوروندی",
+      "flag": "🇧🇮",
+      "code": "BI",
+      "dial_code": "+257",
+      "needsLeadingZero": false
+    },
+    "کامرون": {
+      "name": "کامرون",
+      "flag": "🇨🇲",
+      "code": "CM",
+      "dial_code": "+237",
+      "needsLeadingZero": false
+    },
+    "کیپ ورد": {
+      "name": "کیپ ورد",
+      "flag": "🇨🇻",
+      "code": "CV",
+      "dial_code": "+238",
+      "needsLeadingZero": false
+    },
+    "جمهوری آفریقای مرکزی": {
+      "name": "جمهوری آفریقای مرکزی",
+      "flag": "🇨🇫",
+      "code": "CF",
+      "dial_code": "+236",
+      "needsLeadingZero": false
+    },
+    "چاد": {
+      "name": "چاد",
+      "flag": "🇹🇩",
+      "code": "TD",
+      "dial_code": "+235",
+      "needsLeadingZero": false
+    },
+    "کومور": {
+      "name": "کومور",
+      "flag": "🇰🇲",
+      "code": "KM",
+      "dial_code": "+269",
+      "needsLeadingZero": false
+    },
+    "کنگو": {
+      "name": "کنگو",
+      "flag": "🇨🇬",
+      "code": "CG",
+      "dial_code": "+242",
+      "needsLeadingZero": true
+    },
+    "جمهوری دموکراتیک کنگو": {
+      "name": "جمهوری دموکراتیک کنگو",
+      "flag": "🇨🇩",
+      "code": "CD",
+      "dial_code": "+243",
+      "needsLeadingZero": true
+    },
+    "قبرس": {
+      "name": "قبرس",
+      "flag": "🇨🇾",
+      "code": "CY",
+      "dial_code": "+357",
+      "needsLeadingZero": false
+    },
+    "ساحل عاج": {
+      "name": "ساحل عاج",
+      "flag": "🇨🇮",
+      "code": "CI",
+      "dial_code": "+225",
+      "needsLeadingZero": true
+    },
+    "جیبوتی": {
+      "name": "جیبوتی",
+      "flag": "🇩🇯",
+      "code": "DJ",
+      "dial_code": "+253",
+      "needsLeadingZero": false
+    },
+    "مصر": {
+      "name": "مصر",
+      "flag": "🇪🇬",
+      "code": "EG",
+      "dial_code": "+20",
+      "needsLeadingZero": true
+    },
+    "گینه استوایی": {
+      "name": "گینه استوایی",
+      "flag": "🇬🇶",
+      "code": "GQ",
+      "dial_code": "+240",
+      "needsLeadingZero": false
+    },
+    "اریتره": {
+      "name": "اریتره",
+      "flag": "🇪🇷",
+      "code": "ER",
+      "dial_code": "+291",
+      "needsLeadingZero": false
+    },
+    "اتیوپی": {
+      "name": "اتیوپی",
+      "flag": "🇪🇹",
+      "code": "ET",
+      "dial_code": "+251",
+      "needsLeadingZero": true
+    },
+    "گابن": {
+      "name": "گابن",
+      "flag": "🇬🇦",
+      "code": "GA",
+      "dial_code": "+241",
+      "needsLeadingZero": true
+    },
+    "گامبیا": {
+      "name": "گامبیا",
+      "flag": "🇬🇲",
+      "code": "GM",
+      "dial_code": "+220",
+      "needsLeadingZero": false
+    },
+    "غنا": {
+      "name": "غنا",
+      "flag": "🇬🇭",
+      "code": "GH",
+      "dial_code": "+233",
+      "needsLeadingZero": true
+    },
+    "گینه": {
+      "name": "گینه",
+      "flag": "🇬🇳",
+      "code": "GN",
+      "dial_code": "+224",
+      "needsLeadingZero": false
+    },
+    "گینه بیسائو": {
+      "name": "گینه بیسائو",
+      "flag": "🇬🇼",
+      "code": "GW",
+      "dial_code": "+245",
+      "needsLeadingZero": false
+    },
+    "ایران": {
+      "name": "ایران",
+      "flag": "🇮🇷",
+      "code": "IR",
+      "dial_code": "+98",
+      "needsLeadingZero": true
+    },
+    "عراق": {
+      "name": "عراق",
+      "flag": "🇮🇶",
+      "code": "IQ",
+      "dial_code": "+964",
+      "needsLeadingZero": true
+    },
+    "اسرائیل": {
+      "name": "اسرائیل",
+      "flag": "🇮🇱",
+      "code": "IL",
+      "dial_code": "+972",
+      "needsLeadingZero": true
+    },
+    "اردن": {
+      "name": "اردن",
+      "flag": "🇯🇴",
+      "code": "JO",
+      "dial_code": "+962",
+      "needsLeadingZero": true
+    },
+    "کنیا": {
+      "name": "کنیا",
+      "flag": "🇰🇪",
+      "code": "KE",
+      "dial_code": "+254",
+      "needsLeadingZero": true
+    },
+    "کویت": {
+      "name": "کویت",
+      "flag": "🇰🇼",
+      "code": "KW",
+      "dial_code": "+965",
+      "needsLeadingZero": false
+    },
+    "لبنان": {
+      "name": "لبنان",
+      "flag": "🇱🇧",
+      "code": "LB",
+      "dial_code": "+961",
+      "needsLeadingZero": true
+    },
+    "لسوتو": {
+      "name": "لسوتو",
+      "flag": "🇱🇸",
+      "code": "LS",
+      "dial_code": "+266",
+      "needsLeadingZero": false
+    },
+    "لیبریا": {
+      "name": "لیبریا",
+      "flag": "🇱🇷",
+      "code": "LR",
+      "dial_code": "+231",
+      "needsLeadingZero": true
+    },
+    "لیبی": {
+      "name": "لیبی",
+      "flag": "🇱🇾",
+      "code": "LY",
+      "dial_code": "+218",
+      "needsLeadingZero": true
+    },
+    "ماداگاسکار": {
+      "name": "ماداگاسکار",
+      "flag": "🇲🇬",
+      "code": "MG",
+      "dial_code": "+261",
+      "needsLeadingZero": true
+    },
+    "مالاوی": {
+      "name": "مالاوی",
+      "flag": "🇲🇼",
+      "code": "MW",
+      "dial_code": "+265",
+      "needsLeadingZero": true
+    },
+    "مالی": {
+      "name": "مالی",
+      "flag": "🇲🇱",
+      "code": "ML",
+      "dial_code": "+223",
+      "needsLeadingZero": false
+    },
+    "موریتانی": {
+      "name": "موریتانی",
+      "flag": "🇲🇹",
+      "code": "MR",
+      "dial_code": "+222",
+      "needsLeadingZero": false
+    },
+    "موریس": {
+      "name": "موریس",
+      "flag": "🇲🇺",
+      "code": "MU",
+      "dial_code": "+230",
+      "needsLeadingZero": false
+    },
+    "موزامبیک": {
+      "name": "موزامبیک",
+      "flag": "🇲🇿",
+      "code": "MZ",
+      "dial_code": "+258",
+      "needsLeadingZero": false
+    },
+    "نامیبیا": {
+      "name": "نامیبیا",
+      "flag": "🇳🇦",
+      "code": "NA",
+      "dial_code": "+264",
+      "needsLeadingZero": false
+    },
+    "نیجر": {
+      "name": "نیجر",
+      "flag": "🇳🇪",
+      "code": "NE",
+      "dial_code": "+227",
+      "needsLeadingZero": false
+    },
+    "نیجریه": {
+      "name": "نیجریه",
+      "flag": "🇳🇬",
+      "code": "NG",
+      "dial_code": "+234",
+      "needsLeadingZero": true
+    },
+    "رواندا": {
+      "name": "رواندا",
+      "flag": "🇷🇼",
+      "code": "RW",
+      "dial_code": "+250",
+      "needsLeadingZero": true
+    },
+    "عربستان سعودی": {
+      "name": "عربستان سعودی",
+      "flag": "🇸🇦",
+      "code": "SA",
+      "dial_code": "+966",
+      "needsLeadingZero": true
+    },
+    "سیشل": {
+      "name": "سیشل",
+      "flag": "🇸🇨",
+      "code": "SC",
+      "dial_code": "+248",
+      "needsLeadingZero": false
+    },
+    "سیرالئون": {
+      "name": "سیرالئون",
+      "flag": "🇸🇱",
+      "code": "SL",
+      "dial_code": "+232",
+      "needsLeadingZero": false
+    },
+    "سومالی": {
+      "name": "سومالی",
+      "flag": "🇸🇴",
+      "code": "SO",
+      "dial_code": "+252",
+      "needsLeadingZero": false
+    },
+    "آفریقای جنوبی": {
+      "name": "آفریقای جنوبی",
+      "flag": "🇿🇦",
+      "code": "ZA",
+      "dial_code": "+27",
+      "needsLeadingZero": true
+    },
+    "سودان جنوبی": {
+      "name": "سودان جنوبی",
+      "flag": "🇸🇸",
+      "code": "SS",
+      "dial_code": "+211",
+      "needsLeadingZero": false
+    },
+    "سودان": {
+      "name": "سودان",
+      "flag": "🇸🇩",
+      "code": "SD",
+      "dial_code": "+249",
+      "needsLeadingZero": false
+    },
+    "اسواتینی": {
+      "name": "اسواتینی",
+      "flag": "🇸🇿",
+      "code": "SZ",
+      "dial_code": "+268",
+      "needsLeadingZero": false
+    },
+    "تانزانیا": {
+      "name": "تانزانیا",
+      "flag": "🇹🇿",
+      "code": "TZ",
+      "dial_code": "+255",
+      "needsLeadingZero": true
+    },
+    "توگو": {
+      "name": "توگو",
+      "flag": "🇹🇬",
+      "code": "TG",
+      "dial_code": "+228",
+      "needsLeadingZero": false
+    },
+    "تونس": {
+      "name": "تونس",
+      "flag": "🇹🇳",
+      "code": "TN",
+      "dial_code": "+216",
+      "needsLeadingZero": false
+    },
+    "اوگاندا": {
+      "name": "اوگاندا",
+      "flag": "🇺🇬",
+      "code": "UG",
+      "dial_code": "+256",
+      "needsLeadingZero": true
+    },
+    "زامبیا": {
+      "name": "زامبیا",
+      "flag": "🇿🇲",
+      "code": "ZM",
+      "dial_code": "+260",
+      "needsLeadingZero": true
+    },
+    "زیمبابوه": {
+      "name": "زیمبابوه",
+      "flag": "🇿🇼",
+      "code": "ZW",
+      "dial_code": "+263",
+      "needsLeadingZero": false
+    }
+  }
+}

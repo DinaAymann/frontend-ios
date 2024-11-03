@@ -1,0 +1,5 @@
+mutation SentMessage {
+    insert_messages_one(object: {conversation_id: "e158895a-d3cd-41d9-922a-6d3ece668d9a", text: "Some Text", file_id: "89eed862-b237-492b-9d1f-6f507c29ffea"}) {
+        id
+    }
+}
