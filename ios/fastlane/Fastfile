@@ -14,14 +14,14 @@
 # update_fastlane
 
 default_platform(:ios)
-
+#45 
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
     match("com.ranareda1.RamsesSuperApp","appstore")
-    increment_build_number(xcodeproj: "Ramses.xcodeproj")
+    #increment_build_number(xcodeproj: "Ramses.xcodeproj")
     build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses")
     upload_to_testflight
-    #pilot("fastlane/store.json"(api-key-path), true(skip waiting for build processing))
+    pilot("fastlane/store.json", true)
   end
 end

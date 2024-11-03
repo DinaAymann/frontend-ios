@@ -17,7 +17,7 @@ on:
       - "main"
   push:
     branches:
-      - "CI-CD(combined)"
+      - "main"
 
 permissions:
   contents: read
