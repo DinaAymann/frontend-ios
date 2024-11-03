@@ -72,7 +72,7 @@ jobs:
       #   run: |
       #     sudo gem install fastlane
 
-      - name: Setup app stre connect
+      - name: Setup app store connect
         run: echo "${{ secrets.APP_STORE_JSON_SECRET }}"  >> ./fastlane/store.json
 
       - name: Build and Deploy using Fastlane
