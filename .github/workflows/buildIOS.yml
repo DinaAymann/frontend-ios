@@ -90,7 +90,7 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_FG_TOKEN }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           ASC_JSON_KEY: ${{ secrets.APP_STORE_JSON_SECRET }}
-          FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
+          FASTLANE_PASSWORD: ${{secrets.APP_PASSWORD}}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
           # FASTLANE_APPLE_APP_PASSWORD: ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
