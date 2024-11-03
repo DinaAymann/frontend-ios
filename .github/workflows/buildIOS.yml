@@ -57,15 +57,15 @@ jobs:
           bundler-cache: true
           working-directory: ios
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
-
       - name: Install Bundler
         run: gem install bundler -v 2.4.22
 
       - name: Install gems
         run: bundle install
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
 
       #already done
       # - name: Install Fastlane
