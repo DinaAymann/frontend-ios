@@ -60,8 +60,6 @@ jobs:
       # - name: Install Bundler
       #   run: gem install bundler -v 2.4.22
 
-      
-
       # - name: Install gems
       #   run: bundle install
 
@@ -75,7 +73,7 @@ jobs:
       #     sudo gem install fastlane
 
       - name: Setup app store connect
-        run: echo "${{ secrets.APP_STORE_JSON_SECRET }}"  >> ./fastlane/store.json
+        run: echo "${{ secrets.APP_STORE_JSON_SECRET }}"  >> ./ios/fastlane/store.json
 
       - name: Build and Deploy using Fastlane
         run: |
