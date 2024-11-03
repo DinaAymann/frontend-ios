@@ -67,6 +67,12 @@ jobs:
           cd ios
           bundle install
 
+      - name: flutter setup
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+        id: flutter
+
       # - name: Install CocoaPods
       #   run: |
       #     sudo gem install cocoapods
@@ -82,6 +88,11 @@ jobs:
       - name: Build and Deploy using Fastlane
         env:
           MATCH_GIT_TOKEN: ${{ secrets.MATCH_FG_TOKEN }}
+          # MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          # ASC_JSON_KEY: ${{ secrets.ASC_JSON_KEY }}
+          # FASTLANE_USER: ${{secrets.FASTLANE_USER}}
+          # FASTLANE_PASSWORD: ${{secrets.FASTLANE_PASSWORD}}
+          # FASTLANE_APPLE_APP_PASSWORD: ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
           bundle exec fastlane ios beta
