@@ -92,7 +92,6 @@ jobs:
           ASC_JSON_KEY: ${{ secrets.APP_STORE_JSON_SECRET }}
           # FASTLANE_USER: ${{secrets.FASTLANE_USER}}
           FASTLANE_PASSWORD: ${{secrets.APP_PASSWORD}}
-          
           # FASTLANE_APPLE_APP_PASSWORD: ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
