@@ -1,5 +1,5 @@
 git_url("https://github.com/DinaAymann/Ramses-fastlane.git")
-
+git_basic_authentication(ENV["MATCH_GIT_TOKEN"])
 storage_mode("git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
