@@ -63,9 +63,9 @@ jobs:
       - name: Install gems
         run: bundle install
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
+      # - name: Install CocoaPods
+      #   run: |
+      #     sudo gem install cocoapods
 
       #already done
       # - name: Install Fastlane
