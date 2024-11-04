@@ -19,8 +19,8 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    disable_automatic_code_signing
-    #update_code_signing_settings
+    #disable_automatic_code_signing
+    update_code_signing_settings
     update_project_provisioning(
       xcodeproj: "Ramses.xcodeproj",
       #profile: "bfe6965a-5d3a-406b-b29b-104a444bdd7a",
