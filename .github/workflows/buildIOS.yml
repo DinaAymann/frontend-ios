@@ -67,11 +67,11 @@ jobs:
           cd ios
           bundle install
 
-      - name: flutter setup
-        uses: subosito/flutter-action@v2
-        with:
-          cache: true
-        id: flutter
+      # - name: flutter setup
+      #   uses: subosito/flutter-action@v2
+      #   with:
+      #     cache: true
+      #   id: flutter
 
       # - name: Install CocoaPods
       #   run: |
