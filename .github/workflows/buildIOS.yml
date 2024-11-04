@@ -73,9 +73,9 @@ jobs:
           cache: true
         id: flutter
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
+      # - name: Install CocoaPods
+      #   run: |
+      #     sudo gem install cocoapods
 
       #already done
       # - name: Install Fastlane
