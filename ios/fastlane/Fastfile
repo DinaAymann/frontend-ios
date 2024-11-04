@@ -23,8 +23,8 @@ platform :ios do
     #update_code_signing_settings
     update_project_provisioning(
       xcodeproj: "Ramses.xcodeproj",
-      profile: "bfe6965a-5d3a-406b-b29b-104a444bdd7a",
-      #profile: "com.ranareda1.RamsesSuperApp.#{options[:id]}.mobileprovision",
+      #profile: "bfe6965a-5d3a-406b-b29b-104a444bdd7a",
+      profile: "com.ranareda1.RamsesSuperApp.#{options[:id]}.mobileprovision",
       build_configuration: "Release",
       code_signing_identity: "iPhone Distribution"
     )
