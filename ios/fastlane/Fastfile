@@ -17,7 +17,7 @@ default_platform(:ios)
 #45   
 platform :ios do
   desc "Push a new beta build to TestFlight"
-  lane :beta do
+  lane :beta do  
     #disable_automatic_code_signing
     update_code_signing_settings
     update_project_provisioning(
