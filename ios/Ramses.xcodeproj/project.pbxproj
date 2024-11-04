@@ -163,6 +163,8 @@
 			productName = Ramses;
 			productReference = 13B07F961A680F5B00A75B9A /* Ramses.app */;
 			productType = "com.apple.product-type.application";
+			teamID = "3CHW67J632"; // Add this line
+            teamName = "Ramses International LLC"; // Optionally add this line
 			DEVELOPMENT_TEAM = "3CHW67J632"; // Add this line
             CODE_SIGN_IDENTITY = "iPhone Developer"; // Add this line
             CODE_SIGN_STYLE = "Automatic"; // Add this line
