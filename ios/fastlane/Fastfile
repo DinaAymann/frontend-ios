@@ -29,7 +29,7 @@ platform :ios do
     )
     update_project_team(
       path: "Ramses.xcodeproj",
-      teamid: "3CHW67J632"
+      teamid: "Ramses International LLC"
     )
     match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore" )
     #increment_build_number(xcodeproj: "Ramses.xcodeproj")
