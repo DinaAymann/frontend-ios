@@ -96,7 +96,7 @@ jobs:
           #FASTLANE_APPLE_APP_PASSWORD: ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
-          bundle exec fastlane ios beta team_id:"YOUR_TEAM_ID" id:"bfe6965a-5d3a-406b-b29b-104a444bdd7a"
+          bundle exec fastlane ios beta team_id:"3CHW67J632" id:"bfe6965a-5d3a-406b-b29b-104a444bdd7a"
       # to the store.json
       # - name: Build and Deploy
       #   env:
