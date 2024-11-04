@@ -18,6 +18,17 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
+    disable_automatic_code_signing
+    update_project_provisioning(
+      xcodeproj: "Ramses.xcodeproj",
+      #profile: "com.ranareda1.RamsesSuperApp.#{options[:id]}.mobileprovision",
+      build_configuration: "Release",
+      code_signing_identity: "iPhone Distribution"
+    )
+    update_project_team(
+      path: "Ramses.xcodeproj",
+      teamid: options[:team_id]
+    )
     match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore" )
     #increment_build_number(xcodeproj: "Ramses.xcodeproj")
     build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses", export_team_id: "3CHW67J632", export_options: {method: "app-store"})
