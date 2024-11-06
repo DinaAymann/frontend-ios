@@ -93,11 +93,10 @@ jobs:
           FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
           FASTLANE_SESSION: ${{secrets.FATLANE_SESSION}}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
-          #FASTLANE_APPLE_APP_PASSWORD: ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
+          #FASTLANE_APPLE_APP_PASSWORD:s ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
           bundle exec fastlane ios beta
-      # to the store.json
       # - name: Build and Deploy
       #   env:
       #     APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
