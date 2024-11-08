@@ -20,7 +20,7 @@ platform :ios do
   lane :beta do
     setup_ci if ENV['CI']
     match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore", readonly: true )
-    increment_build_number
+    increment_build_number(build_number: 9)
     build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses")
     #upload_to_testflight
     pilot(api_key_path: "fastlane/store.json", skip_waiting_for_build_processing: true)
@@ -30,8 +30,7 @@ platform :ios do
   lane :buildOnly do
     setup_ci if ENV['CI']
     match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore", readonly: true )
-    increment_build_number
-    #(build_number: 9)
+    increment_build_number(build_number: 9)
     build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses")
   end
 
