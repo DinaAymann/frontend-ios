@@ -26,5 +26,13 @@ platform :ios do
     pilot(api_key_path: "fastlane/store.json", skip_waiting_for_build_processing: true)
 
   end
+
+  lane :buildOnly do
+    setup_ci if ENV['CI']
+    match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore", readonly: true )
+    increment_build_number(build_number: 9)
+    build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses")
+  end
+
 end
 #increment build number
