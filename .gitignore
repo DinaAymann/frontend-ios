@@ -162,4 +162,4 @@ vendor/
 # Ignore virtual environment
 src/backend/venv/
 
-android
+#android

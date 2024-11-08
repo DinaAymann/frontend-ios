@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useContext } from "react";
+import { useState, useRef, useEffect, useCallback, useContext, memo } from "react";
 import {
   View,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 import { Audio } from "expo-av";
 import { Recording } from "expo-av/build/Audio";
 import Animated, {
+  Extrapolation,
   interpolate,
   runOnJS,
   useAnimatedStyle,
@@ -27,6 +28,7 @@ import {
   AntDesign,
   MaterialCommunityIcons,
   Feather,
+  FontAwesome5,
 } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import React from "react";
@@ -37,10 +39,12 @@ import WebView from "react-native-webview";
 import { useChat } from "./ChatContext";
 import { useNavigation } from "@react-navigation/native";
 import DraggableVideo from "./DraggableVideo";
-import OptimizedWaveform from "./OptimizedWaveForm";
 import { LanguageContext } from "./LanguageContext";
+import { useAudioPlayer } from "./AudioPlayer";
+import { Gesture } from "react-native-gesture-handler";
 
 export default function ChatInputArea({ route }) {
+  
   const { chatId, title, isGroupChat, selectedChats } = route.params;
   const { chats } = useChat();
   const chat = chatId
@@ -57,7 +61,7 @@ export default function ChatInputArea({ route }) {
   const [isRecordingLocked, setIsRecordingLocked] = useState(false);
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [isSwiping, setIsSwiping] = useState(false);
+  //const [isSwiping, setIsSwiping] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [pausedTime, setPausedTime] = useState(0);
   const [playbackSound, setPlaybackSound] = useState<Audio.Sound | null>(null);
@@ -92,6 +96,25 @@ export default function ChatInputArea({ route }) {
   const [playbackPosition, setPlaybackPosition] = useState(0);
   const [isPlaybackActive, setIsPlaybackActive] = useState(false);
   const { language } = useContext(LanguageContext);
+
+  const progress = useSharedValue(0);
+  const seekerPosition = useSharedValue(0);
+  const isDragging = useSharedValue(false);
+  const [isSeeking, setIsSeeking] = useState(false);
+
+  
+  const [showHoldToRecordMessage, setShowHoldToRecordMessage] = useState(false);
+  const meteringIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const messageTimeoutRef = useRef(null);
+  const [showPlaybackUI, setShowPlaybackUI] = useState(false);
+  const {
+    playbackStatus,
+    togglePlayback,
+    seekToPosition,
+    loadSounds,
+    setPlaybackRate ,
+    playbackSpeed,  } = useAudioPlayer(audioSegments ); 
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -107,25 +130,44 @@ export default function ChatInputArea({ route }) {
       keyboardDidHideListener.remove();
     };
   }, []);
+  
+  useEffect(() => {
+    if (audioSegments.length > 0) {
+      loadSounds();
+      setShowPlaybackUI(true);
+    }
+  }, [audioSegments]);
+
+  const handleSpeedChange = () => {
+    const newSpeed = playbackSpeed === 1.0 ? 1.5 : playbackSpeed === 1.5 ? 2.0 : 1.0;
+    setPlaybackRate(newSpeed);
+  };
+
+  useEffect(() => {
+    if (!isPaused) {
+      meteringIntervalRef.current = setInterval(() => {
+        setAudioMetering((currentMetering) => [
+          ...currentMetering,
+          generateRandomWaveformValue(), 
+        ]);
+      }, 100); 
+    } else if (meteringIntervalRef.current) {
+        clearInterval(meteringIntervalRef.current);
+        meteringIntervalRef.current = null;
+      }
+    return () => {
+      if (meteringIntervalRef.current) {
+        clearInterval(meteringIntervalRef.current);
+      }
+    };
+  }, [isPaused]);
 
   useEffect(() => {
     if (!isRecordingLocked) {
       startBounce();
     }
   }, [isRecordingLocked]);
-
-  const handleVideoClick = (url: string) => {
-    setVideoUrl(url);
-    setIsVideoVisible(true);
-    setIsPIPActive(true);
-  };
-
-  const handleCloseVideo = () => {
-    setIsVideoVisible(false);
-    setIsPIPActive(false); 
-  };
   
-
   const animatedSlideToCancelStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: slideToCancelTranslateX.value }],
     opacity: slideToCancelOpacity.value,
@@ -188,23 +230,10 @@ export default function ChatInputArea({ route }) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  const handleTitlePress = () => {
-    if (selectedChats && selectedChats.length > 1) {
-      navigation.navigate("GroupInfoScreen", {
-        selectedChats: selectedChats,
-      });
-    } else {
-      if (chat && chat?.profilePhotoUrl) {
-        navigation.navigate("ContactInfoScreen", {
-          userProfilePhoto: chat?.profilePhotoUrl,
-          userName: chat?.user,
-        });
-      }
-    }
-  };
-
   async function startRecording() {
     try {
+      await deleteRecording();
+  
       startFlashingMic();
       setAudioMetering([]);
       await Audio.requestPermissionsAsync();
@@ -212,15 +241,18 @@ export default function ChatInputArea({ route }) {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
-
+  
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
       setRecording(recording);
       setIsRecordingActive(true);
-      setIsRecordingLocked(false);
+  
+      // Start the lock bounce animation immediately
+      startBounce();
+  
       startTimer();
-
+  
       recording.setOnRecordingStatusUpdate((status) => {
         if (
           typeof status.metering === "number" &&
@@ -235,6 +267,7 @@ export default function ChatInputArea({ route }) {
       console.error("Failed to start recording", err);
     }
   }
+  
 
   const loadSound = async (uri) => {
     if (uri) {
@@ -284,6 +317,12 @@ export default function ChatInputArea({ route }) {
 
   const resumeRecording = async () => {
     try {
+      await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true, 
+      playThroughEarpieceAndroid: false,
+      shouldDuckAndroid: true,
+    });
       const { recording: newRecording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
@@ -295,50 +334,6 @@ export default function ChatInputArea({ route }) {
     }
   };
 
-  const playMergedAudio = async () => {
-    if (audioSegments.length === 0) return;
-
-    setIsPlaybackActive(true);
-    let mergedAudioURI = null;
-
-    try {
-      for (let i = 0; i < audioSegments.length; i++) {
-        const uri = audioSegments[i];
-        if (i === 0) {
-          mergedAudioURI = uri;
-        }
-
-        const { sound: newSound } = await Audio.Sound.createAsync(
-          { uri },
-          { progressUpdateIntervalMillis: 50 }
-        );
-        setPlaybackSound(newSound);
-        await newSound.playAsync();
-
-        await new Promise<void>((resolve, reject) => {
-          newSound.setOnPlaybackStatusUpdate(async (status) => {
-            if (status.didJustFinish) {
-              try {
-                await newSound.unloadAsync();
-                resolve();
-              } catch (error) {
-                reject(error);
-              }
-            }
-          });
-        });
-      }
-    } catch (error) {
-      console.error("Error playing merged audio:", error);
-    } finally {
-      setIsPlaybackActive(false);
-      setPlaybackPosition(0);
-      setPlaybackSound(null);
-    }
-
-    return mergedAudioURI;
-  };
-
   const deleteRecording = async () => {
     try {
       if (recording) {
@@ -347,12 +342,10 @@ export default function ChatInputArea({ route }) {
           await recording.stopAndUnloadAsync();
         }
       }
-
       if (playbackSound) {
         await playbackSound.stopAsync();
         await playbackSound.unloadAsync();
       }
-
       setRecording(null);
       setPlaybackSound(null);
       setRecordingURI(null);
@@ -365,31 +358,44 @@ export default function ChatInputArea({ route }) {
       setPausedTime(0);
       setAudioMetering([]);
       setAudioSegments([]);
+      setShowPlaybackUI(false); 
+      setIsPaused(false); 
       micFlash.value = 1;
+  
+      if (loadSounds) {
+        await loadSounds(); 
+      }
+  
+      progress.value = 0;
+      seekerPosition.value = 0;
+      isDragging.value = false;
+      setIsSeeking(false);
+  
     } catch (error) {
       console.error("Error deleting recording:", error);
     }
   };
 
   const stopRecording = async () => {
+    stopTimer();
     if (!recording) return;
+  
     try {
       const status = await recording.getStatusAsync();
       if (status.isRecording) {
         await recording.stopAndUnloadAsync();
       }
-
+  
       const uri = await recording.getURI();
       if (uri) {
         setAudioSegments((prevSegments) => [...prevSegments, uri]);
       }
-
+  
       const allSegments = [...audioSegments, uri].filter(Boolean);
-
       if (allSegments.length > 0) {
         const timestamp = new Date().toISOString().replace(/[:.-]/g, "_");
         const fileName = `recording_${timestamp}.m4a`;
-
+  
         setMemos((existingMemos) => [
           ...existingMemos,
           {
@@ -406,7 +412,6 @@ export default function ChatInputArea({ route }) {
       setRecording(null);
       setIsRecordingLocked(false);
       setIsRecordingActive(false);
-      stopTimer();
       setRecordingTime(0);
       setPausedTime(0);
       setAudioMetering([]);
@@ -415,22 +420,30 @@ export default function ChatInputArea({ route }) {
       micFlash.value = 1;
     }
   };
+  const generateWaveform = () => {
+    if (!audioMetering?.length) return [];
+    
+    const numLines = 50; 
+    return Array.from({ length: numLines }, (_, i) => {
+      const meteringIndex = Math.floor((i * audioMetering.length) / numLines);
+      const nextMeteringIndex = Math.ceil(((i + 1) * audioMetering.length) / numLines);
+      const values = audioMetering.slice(meteringIndex, nextMeteringIndex);
+      return values.reduce((sum, a) => sum + a, 0) / values.length;
+    });
+  };
+  
+  const waveformLines = generateWaveform();
+  
 
-  const handleSendPress = async () => {
-    if (message.trim()) {
-      const newMemo: Memo = { text: message, type: "text" };
+  const handleVideoClick = (url: string) => {
+    setVideoUrl(url);
+    setIsVideoVisible(true);
+    setIsPIPActive(true);
+  };
 
-      if (isVideoLink(message.trim())) {
-        newMemo.type = "link";
-        newMemo.uri = message.trim();
-      }
-
-      setMemos((prevMemos) => [...prevMemos, newMemo]);
-      setMessage("");
-      setPreviewLink(null);
-    } else if (recording || audioSegments.length > 0) {
-      await stopRecording();
-    }
+  const handleCloseVideo = () => {
+    setIsVideoVisible(false);
+    setIsPIPActive(false); 
   };
 
   const handleTextInputChange = (text: string) => {
@@ -442,10 +455,75 @@ export default function ChatInputArea({ route }) {
     }
   };
 
-  const handleLongPress = () => {
-    setIsHolding(true);
+  const handleTitlePress = () => {
+    if (selectedChats && selectedChats.length > 1) {
+      navigation.navigate("GroupInfoScreen", {
+        selectedChats: selectedChats,
+      });
+    } else {
+      if (chat && chat?.profilePhotoUrl) {
+        navigation.navigate("ContactInfoScreen", {
+          userProfilePhoto: chat?.profilePhotoUrl,
+          userName: chat?.user,
+        });
+      }
+    }
   };
 
+  const handleLongPress = () => {
+    holdTimeoutRef.current = setTimeout(() => {
+      setIsHolding(true);
+      startRecording();
+      setShowHoldToRecordMessage(false);
+      startFlashingMic();
+    }, 1500); 
+  
+  };
+  const handleShortPress = () => {
+    setShowHoldToRecordMessage(true);
+    if (messageTimeoutRef.current) clearTimeout(messageTimeoutRef.current);
+    messageTimeoutRef.current = setTimeout(() => {
+      setShowHoldToRecordMessage(false);
+    }, 1000);
+  };
+  const handleSendPress = async () => {
+    if (message.trim()) {
+      const newMemo: Memo = { text: message, type: "text" };
+      if (isVideoLink(message.trim())) {
+        newMemo.type = "link";
+        newMemo.uri = message.trim();
+      }
+      setMemos((prevMemos) => [...prevMemos, newMemo]);
+      setMessage("");
+      setPreviewLink(null);
+    } else if (recording || audioSegments.length > 0) {
+      stopTimer();  
+      if (isPaused) {
+        const allSegments = [...audioSegments].filter(Boolean);
+        if (allSegments.length > 0) {
+          const timestamp = new Date().toISOString().replace(/[:.-]/g, "_");
+          const fileName = `recording_${timestamp}.m4a`;
+          setMemos((existingMemos) => [
+            ...existingMemos,
+            {
+              metering: audioMetering.filter((v) => !isNaN(v)),
+              type: "audio",
+              audioSegments: allSegments,
+              fileName,
+            },
+          ]);
+        }
+        setAudioSegments([]);
+        setPausedTime(0);
+        setAudioMetering([]);
+        setIsPaused(false); 
+        await deleteRecording(); 
+      } else {
+        await stopRecording();  
+      }
+    }
+  };
+  
   let startY = 550;
   let startX = 100;
   let startY1 = 750;
@@ -460,7 +538,6 @@ export default function ChatInputArea({ route }) {
       startY1 = gestureState.y0;
 
       if (isHolding) {
-        startRecording();
         startFlashingMic();
       }
     },
@@ -524,6 +601,7 @@ export default function ChatInputArea({ route }) {
       runOnJS(setShowTimer)(false);
       runOnJS(setShowCancelText)(false);
       runOnJS(setIsHolding)(false);
+      setShowHoldToRecordMessage(false);
     },
   });
 
@@ -550,6 +628,50 @@ export default function ChatInputArea({ route }) {
     return url;
   };
 
+  const generateRandomWaveformValue = () => {
+    return Math.random() * -60;
+  };
+
+  const renderWaveform = () => {
+    return (
+      <Animated.View style={styles.wave}>
+        {audioMetering.slice(-83).map((db, index) => (
+          <View
+            key={index}
+            style={[
+              styles.waveformBar,
+              {
+                height: interpolate(db, [-60, 0], [5, 15], Extrapolation.CLAMP),
+                backgroundColor: 'royalblue',
+              },
+            ]}
+          />
+        ))}
+      </Animated.View>
+    );
+  };
+  const [waveWidth, setWaveWidth] = useState(0);
+
+  const gesture = Gesture.Pan()
+  .onStart(() => {
+    isDragging.value = true;
+    runOnJS(setIsSeeking)(true);
+  })
+  .onUpdate((e) => {
+    const newPosition = Math.max(0, Math.min(waveWidth, e.translationX + seekerPosition.value));
+    seekerPosition.value = newPosition;
+    progress.value = newPosition / waveWidth;
+  })
+  .onEnd(() => {
+    isDragging.value = false;
+    runOnJS(seekToPosition)(progress.value); 
+    runOnJS(setIsSeeking)(false);
+  });
+  const animatedSeekerStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: seekerPosition.value }],
+  }));
+
+
   return (
     <View style={styles.container}>
       <SingleChatHeader
@@ -557,45 +679,53 @@ export default function ChatInputArea({ route }) {
         title={chatTitle}
         userProfilePhoto={userProfilePhoto}
         onTitlePress={handleTitlePress}
-      />     
-     <FlatList
+      />
+  
+      <FlatList
         data={memos}
-        keyExtractor={(item) => `${item.uri || item.text}`}
+        keyExtractor={(item, index) => item.uri || item.text || index.toString()}
         renderItem={({ item }) => (
           <View>
-            <ChatScreen memo={item} isOutgoing={true} onVideoClick={handleVideoClick} isPIPActive={isPIPActive} 
-        onCloseVideo={handleCloseVideo}/>
+            <ChatScreen 
+              memo={item} 
+              isOutgoing={true} 
+              onVideoClick={handleVideoClick} 
+              isPIPActive={isPIPActive} 
+              onCloseVideo={handleCloseVideo} 
+            />
           </View>
         )}
         inverted={false}
       />
+  
       {isVideoVisible && videoUrl && (
         <View style={styles.videoContainer}>
           <DraggableVideo videoId={videoUrl} onClose={handleCloseVideo} />
         </View>
       )}
-      
+  
       {previewLink && (
         <View>
           {renderVideoPreview()}
         </View>
       )}
+  
+      {showHoldToRecordMessage && (
+        <View>
+          <View style={styles.holdMessageContainer}>
+            <Text style={styles.holdMessageText}>Hold to record, release to send</Text>
+          </View>
+          <View style={styles.holdMessageTail} />
+        </View>
+      )}
+  
       <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
       >
-     
-        <View style={[
-                styles.footer,
-                isKeyboardVisible && null,
-              ]} {...panResponder.panHandlers}>
-         {isRecordingLocked ? (
-            <View
-              style={[
-                styles.recordingLocked,
-                isKeyboardVisible && null,
-              ]}
-            >
+        <View style={[styles.footer, isKeyboardVisible && null]} {...panResponder.panHandlers}>
+          {isRecordingLocked ? (
+            <View style={[styles.recordingLocked, isKeyboardVisible && null]}>
               <TextInput
                 ref={textInputRef}
                 style={[styles.input, { opacity: 0, height: 0 }]} 
@@ -603,56 +733,66 @@ export default function ChatInputArea({ route }) {
                 placeholder="Type a message..."
                 editable={true}
               />
-              <View style={[styles.waveformAndTimer, isKeyboardVisible && { paddingBottom: 20 }]}>
-              <Text style={styles.timerText}>{formatTime(recordingTime)}</Text>
               
-
-                <OptimizedWaveform audioMetering={audioMetering} isPlaying={false} />
+              <View style={styles.waveformAndTimer}>
+                <Text style={styles.timerText}>{formatTime(recordingTime)}</Text>
+                {isPaused ? (
+                  <View style={styles.playbackContainer}>
+                    <View style={styles.controls}>
+                      <TouchableOpacity onPress={togglePlayback}>
+                        <FontAwesome5
+                          name={playbackStatus === "playing" ? "pause" : "play"}
+                          size={20}
+                          color="gray"
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={handleSpeedChange}>
+                        <Text style={styles.speedText}>{playbackSpeed}x</Text>
+                      </TouchableOpacity>
+                      <View style={styles.wave}>
+                    {waveformLines.map((db, index) => (
+                      <Animated.View
+                        key={index}
+                        style={[
+                          styles.waveLine,
+                          {
+                            height: Math.max(5, Math.min(50, (db + 60) * (50 / 60))),
+                            backgroundColor: progress.value * waveWidth >= (index / waveformLines.length) * waveWidth
+                              ? "#34B7F1"
+                              : "gainsboro",
+                          },
+                        ]}
+                      />
+                    ))}
+                   
+                    </View>
+                   
+                  </View>
+                    </View>
+                   
+                ) : (
+                  <View style={styles.waveformContainer}>
+                    {renderWaveform()}
+                  </View>
+                )}
               </View>
-
-
+  
               <View style={[styles.controlButtons, isKeyboardVisible && { paddingBottom: 20 }]}>
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={deleteRecording}
-                >
+                <TouchableOpacity style={styles.controlButton} onPress={deleteRecording}>
                   <AntDesign name="delete" size={30} color="black" />
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={isPaused ? resumeRecording : pauseRecording}
-                >
-                  <AntDesign
-                    name={isPaused ? "playcircleo" : "pausecircleo"}
-                    size={30}
-                    color="red"
-                  />
+  
+                <TouchableOpacity style={styles.controlButton} onPress={isPaused ? resumeRecording : pauseRecording}>
+                  <AntDesign name={isPaused ? "playcircleo" : "pausecircleo"} size={30} color="red" />
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={playMergedAudio}
-                >
-                  <AntDesign
-                    name={'play'}
-                    size={30}
-                    color="red"
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={ handleSendPress}
-                >
-                <MaterialCommunityIcons name={"send-circle"} size={40} color="green" />
+                <TouchableOpacity style={styles.controlButton} onPress={handleSendPress}>
+                  <MaterialCommunityIcons name="send-circle" size={40} color="green" />
                 </TouchableOpacity>
               </View>
             </View>
           ) : (
-
             <View style={styles.recordingArea}>
-             <TextInput
+              <TextInput
                 ref={textInputRef}
                 style={styles.input}
                 value={message}
@@ -662,33 +802,23 @@ export default function ChatInputArea({ route }) {
               />
   
               {isRecordingActive && (
-                <View
-                  style={[
-                    styles.recordingActiveArea,
-                    isKeyboardVisible && null,
-                  ]}
-                >
-                
-                {slideToCancelTranslateX.value > DELETE_THRESHOLD ? (
-                <Animated.View style={animatedMicStyle}>
-                  <Ionicons name="mic" size={34} color="red" />
-                </Animated.View>
-              ) : (
-                <Animated.View style={[styles.basketIcon, animatedBasketStyle]}>
-                  <AntDesign name="delete" size={34} color="red" />
-                </Animated.View>
-              )}
-               {basketOpacity.value === 0 && (
-               <Text style={styles.timerText}>{formatTime(recordingTime)}</Text>
-               )}
-
-
-              {!isRecordingLocked && (
-                <>
-                  <Animated.Text style={[styles.slideToCancelText, animatedSlideToCancelStyle]}>
-                  Slide to Cancel {'>'}
-                  </Animated.Text>
-                    </>
+                <View style={[styles.recordingActiveArea, isKeyboardVisible && null]}>
+                  {slideToCancelTranslateX.value > DELETE_THRESHOLD ? (
+                    <Animated.View style={animatedMicStyle}>
+                      <Ionicons name="mic" size={34} color="red" />
+                    </Animated.View>
+                  ) : (
+                    <Animated.View style={[styles.basketIcon, animatedBasketStyle]}>
+                      <AntDesign name="delete" size={34} color="red" />
+                    </Animated.View>
+                  )}
+                  {basketOpacity.value === 0 && (
+                    <Text style={styles.timerText}>{formatTime(recordingTime)}</Text>
+                  )}
+                  {!isRecordingLocked && isRecordingActive && (
+                    <Animated.Text style={[styles.slideToCancelText, animatedSlideToCancelStyle]}>
+                      Slide to Cancel {'>'}
+                    </Animated.Text>
                   )}
                 </View>
               )}
@@ -696,21 +826,14 @@ export default function ChatInputArea({ route }) {
               {message.trim() ? (
                 <TouchableOpacity onPress={handleSendPress} style={styles.iconButton}>
                   <MaterialCommunityIcons name="send-circle" size={40} color="green" />
-                  </TouchableOpacity>
+                </TouchableOpacity>
               ) : (
-                <TouchableOpacity
-                  onPressIn={handleLongPress}
-                >
+                <TouchableOpacity onLongPress={handleLongPress} onPressOut={handleShortPress}>
                   <Feather name="mic" size={28} color="black" />
                 </TouchableOpacity>
               )}
   
-              <View
-                style={[
-                  styles.audioButtonContainer,
-                  isKeyboardVisible && null,
-                ]}
-              >
+              <View style={[styles.audioButtonContainer, isKeyboardVisible && null]}>
                 {isRecordingActive && !isRecordingLocked && (
                   <Animated.View style={[styles.lockContainer, animatedLockStyle]}>
                     <Icon name="lock-open" size={30} color="black" />
@@ -723,9 +846,9 @@ export default function ChatInputArea({ route }) {
       </KeyboardAvoidingView>
     </View>
   );
-
+  
 }  
-
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -816,11 +939,11 @@ const styles = StyleSheet.create({
   waveformAndTimer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   waveformBar: {
     width: 2,
-    marginHorizontal: 0.9,
+    marginHorizontal: 0.2,
     borderRadius: 2,
   },
   wave: {
@@ -828,6 +951,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 2,
     justifyContent: "flex-end",
+  },
+  waveformContainer: { 
+    flex: 1, 
+    marginLeft: 10 
   },
 
   segmentContainer: {
@@ -870,4 +997,90 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  holdMessageContainer: {
+    position: "absolute",
+    bottom: '15%',          
+    right: '1%',             
+    backgroundColor: "#DCF8C6", 
+    paddingVertical: 10,    
+    paddingHorizontal: 20,   
+    borderRadius: 10,      
+    alignSelf: "flex-end",   
+    elevation: 5,            
+    shadowColor: "#000",   
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  holdMessageText: {
+    color: "black",        
+    fontSize: 16,           
+    fontWeight: "500",     
+    textAlign: "center",    
+  },
+  holdMessageTail: {
+    position: "absolute",
+    bottom: -6,          
+    right: 10,            
+    width: 0,
+    height: 0,
+    borderLeftWidth: 6,   
+    borderRightWidth: 6,  
+    borderTopWidth: 6,    
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderTopColor: "rgba(60, 60, 60, 0.9)",
+  },
+ 
+  speedText: {
+    fontSize: 16,
+    color: "gray",
+    marginLeft: 10,
+  },
+  timeText: {
+    fontSize: 14,
+    color: "gray",
+    marginLeft: 10,
+  },
+  controls: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  waveLine: {
+    flex: 1,
+    backgroundColor: "gainsboro",
+    borderRadius: 20,
+  },
+
+  playbackContainer: {
+    flex: 1,
+    height: 50,                  
+    alignItems: "center",       
+    justifyContent: "center",
+    backgroundColor: "#f9f9f9",  
+    paddingVertical: 10,      
+    paddingHorizontal: 35,
+    borderWidth: 1,             
+    borderColor: "#ddd",         
+    borderRadius: 15,            
+  },
+  
+  seeker: {
+    position: "absolute",
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    bottom: 37,
+    left: -5,
+    backgroundColor: "#34B7F1",
+    justifyContent: "center",
+  },
+ WaveContainer: {
+    flex: 1,
+    height: 80,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  
 });

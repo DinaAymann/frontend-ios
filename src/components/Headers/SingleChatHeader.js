@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import PropTypes from "prop-types";
 import colors from "../../styles/colors";
 import Typography from "../Typography";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 const SingleChatHeader = ({
   navigation,
   title,
@@ -16,7 +17,7 @@ const SingleChatHeader = ({
         onPress={() => navigation.goBack()}
         style={styles.iconButton}
       >
-        <Icon name="arrow-back" size={25} color={colors.white} />
+      <MaterialIcons name="arrow-back-ios" size={25} color={colors.white} />
       </TouchableOpacity>
 
       <View style={styles.infoContainer}>
@@ -33,10 +34,10 @@ const SingleChatHeader = ({
 
       <View style={styles.actions}>
         <TouchableOpacity style={styles.iconButton}>
-          <Icon name="videocam" size={30} color={colors.white} />
+          <AntDesign name="videocamera" size={28} color={colors.white} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
-          <Icon name="call" size={30} color={colors.white} />
+          <Ionicons name="call-outline" size={28} color={colors.white} />
         </TouchableOpacity>
       </View>
     </View>
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 20,
-    marginTop: 5,
     marginLeft: -20,
+    justifyContent: "center",
   },
   actions: {
     flexDirection: "row",

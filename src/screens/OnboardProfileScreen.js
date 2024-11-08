@@ -29,12 +29,31 @@ const OnBoardProfileScreen = ({ route }) => {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState("");
   const [image, setImage] = useState(null);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const navigation = useNavigation();
   const { language } = useContext(LanguageContext);
   const RTL_LANGUAGES = ["ar-EG", "ar-AM", "fa-IR"];
   const textAlign = RTL_LANGUAGES.includes(language) ? "right" : "left";
+  
+  const [focusedInput, setFocusedInput] = useState(null);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,29 +69,71 @@ const OnBoardProfileScreen = ({ route }) => {
   };
 
   const onDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
     if (event.type === "set") {
-      const currentDate = selectedDate || date;
-      setDate(currentDate);
+      setDate(selectedDate);
     }
+  };
+
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
     setShowDatePicker(false);
   };
-  const formattedDate = date.toLocaleDateString();
+  
+  const formattedDate = date ? date.toLocaleDateString() : "";
+
+  const isFormValid = name && date;
 
   const handleGoPress = async () => {
-    try {
-      navigation.navigate("ChatListScreen");
-    } catch (error) {
-      console.error("Error saving language to AsyncStorage:", error);
-      Alert.alert("Error", "Failed to save language preference");
+    if (isFormValid) {
+      try {
+        navigation.navigate("ChatListScreen");
+      } catch (error) {
+        console.error("Error saving language to AsyncStorage:", error);
+        Alert.alert("Error", "Failed to save language preference");
+      }
     }
   };
+
+  const getInputStyle = (inputName) => {
+    let value;
+    switch (inputName) {
+      case 'name':
+        value = name;
+        break;
+      case 'nickname':
+        value = nickname;
+        break;
+      case 'gender':
+        value = gender;
+        break;
+      case 'date':
+        value = date;
+        break;
+      default:
+        value = '';
+    }
+
+    return [
+      styles.input,
+      focusedInput === inputName && styles.inputFocused,
+      value && styles.inputFilled,
+    ];
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
+      enabled
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <TouchableWithoutFeedback onPress={handleScreenPress}>
+        <ScrollView 
+          contentContainerStyle={[
+            styles.scrollViewContent,
+            keyboardVisible && styles.scrollViewWithKeyboard
+          ]}
+        >
           <View style={styles.inner}>
             <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
               {image ? (
@@ -88,61 +149,75 @@ const OnBoardProfileScreen = ({ route }) => {
               )}
             </TouchableOpacity>
 
-            <TextInput
-              style={styles.input}
-              placeholder={t("onBoardProfile.name")}
-              placeholderTextColor={colors.grey3}
-              value={name}
-              onChangeText={setName}
-              maxLength={20}
-              textAlign={textAlign}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder={t("onBoardProfile.nickname")}
-              placeholderTextColor={colors.grey3}
-              value={nickname}
-              onChangeText={setNickname}
-              maxLength={15}
-              textAlign={textAlign}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder={t("onBoardProfile.gender")}
-              placeholderTextColor={colors.grey3}
-              value={gender}
-              onChangeText={setGender}
-              maxLength={10}
-              textAlign={textAlign}
-            />
-
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+            <View style={styles.inputsContainer}>
               <TextInput
-                style={styles.input}
-                placeholder="MM/DD/YYYY"
-                placeholderTextColor="#aaa"
-                value={formattedDate}
-                editable={false}
-                pointerEvents="none"
+                style={getInputStyle('name')}
+                placeholder={t("onBoardProfile.name")}
+                placeholderTextColor={colors.grey3}
+                value={name}
+                onChangeText={setName}
+                maxLength={20}
                 textAlign={textAlign}
+                onFocus={() => setFocusedInput('name')}
+                onBlur={() => setFocusedInput(null)}
               />
-            </TouchableOpacity>
+              <TextInput
+                style={getInputStyle('nickname')}
+                placeholder={t("onBoardProfile.nickname")}
+                placeholderTextColor={colors.grey3}
+                value={nickname}
+                onChangeText={setNickname}
+                maxLength={15}
+                textAlign={textAlign}
+                onFocus={() => setFocusedInput('nickname')}
+                onBlur={() => setFocusedInput(null)}
+              />
+              <TextInput
+                style={getInputStyle('gender')}
+                placeholder={t("onBoardProfile.gender")}
+                placeholderTextColor={colors.grey3}
+                value={gender}
+                onChangeText={setGender}
+                maxLength={10}
+                textAlign={textAlign}
+                onFocus={() => setFocusedInput('gender')}
+                onBlur={() => setFocusedInput(null)}
+              />
 
-            {showDatePicker && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                display={Platform.OS === "ios" ? "inline" : "default"}
-                onChange={onDateChange}
-              />
-            )}
+              <TouchableOpacity 
+                onPress={() => setShowDatePicker(true)}
+                style={getInputStyle('date')}
+              >
+                <Text 
+                  style={[
+                    styles.dateText,
+                    !date && styles.placeholderText
+                  ]}
+                >
+                  {date ? formattedDate : "MM/DD/YYYY"}
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={handleGoPress}>
-              <Typography
-                text={t("onBoardProfile.submit")}
-                color={colors.white}
-              />
-            </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={date || new Date()}
+                  mode="date"
+                  display={Platform.OS === "ios" ? "inline" : "default"}
+                  onChange={onDateChange}
+                />
+              )}
+
+              <TouchableOpacity 
+                style={[styles.button, !isFormValid && styles.buttonDisabled]}
+                onPress={handleGoPress}
+                disabled={!isFormValid}
+              >
+                <Typography
+                  text={t("onBoardProfile.submit")}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
@@ -159,14 +234,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 40,
     backgroundColor: colors.white,
-    justifyContent: "space-evenly",
   },
   scrollViewContent: {
     flexGrow: 1,
   },
+  scrollViewWithKeyboard: {
+    paddingBottom: 20,
+  },
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 30,
+    marginTop: 100,
   },
   profileImage: {
     width: 200,
@@ -174,25 +253,60 @@ const styles = StyleSheet.create({
     borderRadius: 140,
   },
   defaultImage: {
-    width: 180,
-    height: 180,
+    width: 200,
+    height: 200,
     borderRadius: 140,
-    backgroundColor: "#ccc",
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
+    borderWidth: 1,
+  },
+  inputsContainer: {
+    gap: 15,
+    alignItems: "center",
   },
   input: {
     padding: 10,
-    fontSize: 18,
+    fontSize: 14,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: colors.purple,
+    borderColor: '#00000099',
+    fontWeight: "400",
+    fontFamily: "Raleway",
+    width: 326,
+    height: 40,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    marginVertical: 5,
+  },
+  inputFocused: {
+    borderWidth: 3,
+    opacity: 0.6,
+  },
+  inputFilled: {
+    borderWidth: 2,
+    opacity: 0.6,
+  },
+  dateText: {
+    fontSize: 14,
+    paddingHorizontal: 1,
+  },
+  placeholderText: {
+    color: colors.grey3,
   },
   button: {
     borderRadius: 10,
     paddingVertical: 10,
-    marginHorizontal: 50,
-    backgroundColor: colors.purple,
+    marginHorizontal: 35,
+    backgroundColor: '#000000',
+    width: 280,
+    height: 50,
+    marginTop: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonDisabled: {
+    backgroundColor: '#00000099',
   },
 });
 

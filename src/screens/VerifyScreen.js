@@ -10,9 +10,7 @@ import {
   Platform,
   ScrollView,
   Animated,
-  I18nManager,
 } from "react-native";
-
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../styles/colors";
@@ -24,17 +22,14 @@ const { width, height } = Dimensions.get("window");
 const VerifyScreen = ({ navigation, route }) => {
   const { verificationId, phoneNumber, callingCode } = route.params;
   const { language } = useContext(LanguageContext);
-  const recaptchaVerifier = useRef(null);
   const { t } = useTranslation();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [resendTimer, setResendTimer] = useState(50);
   const [canResend, setCanResend] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(null);
   const contentAnimation = useRef(new Animated.Value(0)).current;
   const phoneImageAnimation = useRef(new Animated.Value(height)).current;
   const inputRefs = useRef([]);
-
-  const RTL_LANGUAGES = ["ar-EG", "ar-AM", "fa-IR"];
-  const textAlign = RTL_LANGUAGES.includes(language) ? "right" : "left";
 
   useEffect(() => {
     Animated.sequence([
@@ -58,14 +53,6 @@ const VerifyScreen = ({ navigation, route }) => {
       useNativeDriver: true,
     }).start();
   }, []);
-
-  const storeToken = async (token) => {
-    try {
-      await AsyncStorage.setItem("userToken", token);
-    } catch (e) {
-      console.error("Failed to save the token to storage", e);
-    }
-  };
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -130,175 +117,156 @@ const VerifyScreen = ({ navigation, route }) => {
     }
   };
 
+  const isCodeComplete = code.every((digit) => digit !== "");
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "position" : "height"}
       style={{ flex: 1 }}
+      keyboardVerticalOffset={-40}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Animated.View
-          style={[
-            styles.bodyContainer,
-            {
-              opacity: contentAnimation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-              }),
-              transform: [
-                {
-                  translateX: contentAnimation.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [width / 4, 0],
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          <Animated.Image
-            source={require("../assets/otp.png")}
-            style={[
-              styles.phoneImage,
-              {
-                transform: [
-                  {
-                    translateX: phoneImageAnimation,
-                  },
-                ],
-              },
-            ]}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.white }}
+        bounces={false}
+      >
+        <View style={styles.firstContainer}>
+          <Typography
+            text={`${t("codeConfirmation.body")} ${callingCode} ${phoneNumber}`}
+            textAlign="center"
+            size={24}
+            fontFamily="Raleway"
+            fontWeight="700"
+            top={100}
           />
-          <View style={styles.firstContainer}>
-            <Typography
-              text={t("codeConfirmation.title")}
-              style={styles.titleText}
-              textAlign={textAlign}
-              color={colors.purple}
-              size={30}
-              fontFamily="Cairo-Bold"
-            />
-            <Typography
-              text={`${t(
-                "codeConfirmation.body"
-              )} \n${callingCode} ${phoneNumber}`}
-              textAlign={textAlign}
-              size={18}
-              fontFamily="Cairo-Regular"
-            />
 
-            <View style={styles.codeInputContainer}>
-              {code.map((digit, index) => (
-                <React.Fragment key={index}>
-                  <TextInput
-                    value={digit}
-                    onChangeText={(value) => handleChangeText(index, value)}
-                    onKeyPress={({ nativeEvent }) => {
-                      handleKeyPress(index, nativeEvent.key);
-                    }}
-                    style={styles.codeInput}
-                    keyboardType="number-pad"
-                    maxLength={1}
-                    ref={(ref) => (inputRefs.current[index] = ref)}
-                    editable={true}
-                  />
-                  {index === 2 && (
-                    <View style={styles.hyphen}>
-                      <Typography text={"-"} size={18} />
-                    </View>
-                  )}
-                </React.Fragment>
-              ))}
-            </View>
+          <Typography
+            text={t("codeConfirmation.title")}
+            style={styles.titleText}
+            textAlign="center"
+            color={colors.black}
+            size={24}
+            fontFamily="Raleway"
+            top={60}
+            fontWeight="400"
+          />
+
+          <View style={styles.codeInputContainer}>
+            {code.map((digit, index) => (
+              <TextInput
+                key={index}
+                value={digit}
+                onChangeText={(value) => handleChangeText(index, value)}
+                onKeyPress={({ nativeEvent }) => {
+                  handleKeyPress(index, nativeEvent.key);
+                }}
+                onFocus={() => setFocusedIndex(index)}
+                onBlur={() => setFocusedIndex(null)}
+                style={[
+                  styles.codeInput,
+                  focusedIndex === index && styles.focusedCodeInput,
+                ]}
+                keyboardType="number-pad"
+                maxLength={1}
+                ref={(ref) => (inputRefs.current[index] = ref)}
+                editable={true}
+              />
+            ))}
           </View>
 
-          <View style={styles.secondContainer}>
-            <TouchableOpacity
-              style={styles.confirmButton}
-              onPress={handleConfirm}
+          <TouchableOpacity
+            onPress={resendCode}
+            disabled={!canResend}
+            style={styles.resendTextButton}
+          >
+            <Text
+              style={[
+                styles.resendText,
+                !canResend && styles.resendTextDisabled,
+              ]}
             >
-              <Typography
-                text={t("codeConfirmation.confirmButton")}
-                color={colors.white}
-                size={20}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.resendButton, !canResend && { opacity: 0.5 }]}
-              onPress={resendCode}
-              disabled={!canResend}
-            >
-              <Typography
-                text={
-                  canResend
-                    ? `${t("codeConfirmation.reSendCode")}`
-                    : `${t("codeConfirmation.reSendinCode")} ${resendTimer}s`
-                }
-                color={colors.white}
-                size={12}
-              />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+              {canResend
+                ? t("codeConfirmation.reSendCode")
+                : `${t("codeConfirmation.reSendinCode")} ${resendTimer}s`}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.secondContainer}>
+          <TouchableOpacity
+            style={[
+              styles.confirmButton,
+              isCodeComplete && { backgroundColor: colors.black },
+            ]}
+            onPress={handleConfirm}
+            disabled={!isCodeComplete}
+          >
+            <Typography
+              text={t("codeConfirmation.confirmButton")}
+              color={colors.white}
+              size={24}
+              fontFamily="Raleway"
+              fontWeight="700"
+              top={-3}
+            />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  bodyContainer: {
-    flex: 1,
-    justifyContent: "space-around",
-    backgroundColor: colors.white,
-  },
-  phoneImage: {
-    width: 150,
-    height: 150,
-    alignSelf: "center",
-    resizeMode: "contain",
-  },
-  image: {
-    width: 150,
-    height: 150,
-    alignSelf: "center",
-    resizeMode: "contain",
-  },
   firstContainer: {
     justifyContent: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,
+    alignItems: "center",
   },
   codeInputContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 60,
   },
   codeInput: {
-    width: 50,
+    width: 40,
     height: 50,
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 5,
     color: colors.black,
     fontSize: 24,
     textAlign: "center",
     backgroundColor: colors.white,
-    marginHorizontal: 3,
+    fontWeight: "300",
+    marginHorizontal: 5,
+  },
+  focusedCodeInput: {
+    borderWidth: 3,
+    opacity: 0.6,
   },
   confirmButton: {
     padding: 10,
-    borderRadius: 25,
-    marginVertical: 10,
-    marginHorizontal: 100,
-    backgroundColor: colors.purple,
-  },
-  hyphen: {
-    alignItems: "center",
+    borderRadius: 10,
+    marginVertical: 220,
+    marginHorizontal: 70,
+    backgroundColor: "#00000080",
+    width: 290,
+    height: 50,
     justifyContent: "center",
-    flex: 1,
+    alignItems: "center",
   },
-  resendButton: {
-    padding: 10,
-    borderRadius: 25,
-    marginHorizontal: 130,
-    backgroundColor: colors.purple,
+  resendTextButton: {
+    marginTop: 20,
+  },
+  resendText: {
+    color: colors.black,
+    textDecorationLine: 'underline',
+    fontSize: 14,
+    fontFamily: 'Raleway',
+  },
+  resendTextDisabled: {
+    opacity: 0.5,
+  },
+  secondContainer: {
+    alignItems: 'center',
   },
 });
 

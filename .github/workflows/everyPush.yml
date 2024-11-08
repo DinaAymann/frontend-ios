@@ -1,0 +1,66 @@
+name: code quality and security checks
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "main-test"
+
+  pull_request:
+    branches:
+      - "main"
+      - "main-test"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  code-checks:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        #ubuntu
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.18.0"
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Install EsLint
+        run: |
+          npm install eslint --save-dev --yes
+          npm install eslint-plugin-security eslint-plugin-no-unsanitized --save-dev
+        #re-check security
+
+      - name: init EsLint
+        run: npx eslint --init
+
+      - name: Run Eslint
+        run: npx eslint
+        continue-on-error: false #to make the other checks
+
+      - name: Install Prettier
+        run: npm install --save-dev prettier
+
+      - name: Run Prettier
+        run: npx prettier --check .
+        continue-on-error: false #to make the other checks
+
+      - name: npm audit report
+        run: npm audit
+        continue-on-error: true #fixed
+

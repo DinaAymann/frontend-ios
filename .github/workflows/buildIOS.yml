@@ -13,10 +13,10 @@ name: CI/CD-IOS for PR
 #   MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
 
 on:
-  pull_request:
-    branches:
-      - "main-test"
-      - "main"
+  # pull_request:
+  #   branches:
+  #     - "main-test"
+  #     - "main"
   push:
     branches:
       - "main"

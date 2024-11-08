@@ -49,6 +49,7 @@
     "reSendinCode": "Resend in"
   },
   "success": {
+    "title": "Congratulations!",
     "body": "Your account has been successfully verified !!",
     "confirmButton": "Continue"
   },

@@ -12,7 +12,13 @@ const Typography = ({
   maxChar = "auto",
   fontFamily = "Cairo-Regular",
   textAlign = "center",
-
+  top =0,
+  left =0,
+  right =0,
+  bottom =0,  
+  gap =0,
+  fontWeight = "normal",
+  width = "auto",
   ...props
 }) => {
   const renderText = () => {
@@ -40,6 +46,14 @@ const Typography = ({
       color={color}
       fontFamily={fontFamily}
       textAlign={textAlign}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}
+      gap={gap}
+      fontWeight={fontWeight}
+      width={width}
+    
     >
       {renderText()}
     </Text>
@@ -54,4 +68,12 @@ const Text = styled.Text`
   font-family: ${(props) => props.fontFamily};
   text-align: ${(props) => props.textAlign};
   line-height: ${(props) => props.size * 2}px;
+  margin-top: ${(props) => props.top}px;
+  margin-left: ${(props) => props.left}px;
+  margin-right: ${(props) => props.right}px;
+  margin-bottom: ${(props) => props.bottom}px;
+  gap: ${(props) => props.gap}px;
+  font-weight: ${(props) => props.fontWeight};
+  width: ${(props) => props.width};
 `;
+

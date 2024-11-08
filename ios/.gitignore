@@ -1,7 +1,7 @@
 # OSX
 #
 .DS_Store
-#store.json
+fastlane/store.json
 # Xcode
 #
 build/

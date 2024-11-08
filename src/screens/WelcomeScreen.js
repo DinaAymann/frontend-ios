@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useContext } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -6,26 +6,22 @@ import {
   Dimensions,
   Image,
   ScrollView,
-  FlatList,
   Alert,
   I18nManager,
 } from "react-native";
 import PropTypes from "prop-types";
-import { CheckBox } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "../i18n";
 import { useTranslation } from "react-i18next";
 import { useFocusEffect } from "@react-navigation/native";
 import colors from "../styles/colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import Typography from "../components/Typography";
 import { LanguageContext } from "../components/LanguageContext";
+import Checkbox from "../components/CheckBox";
+
 const { width } = Dimensions.get("window");
-// cosnt;
 const RTL_LANGUAGES = ["ar-EG", "ar-AM", "fa-IR"];
-
-const DATA = ["English", "مصري", "Franco", "Arabic", "French"];
-
+const DATA = ["English", "مصري", "Franco"];
 const itemWidth = width / 4;
 
 const languageMapping = {
@@ -40,27 +36,12 @@ const WelcomeScreen = ({ navigation, route }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
   const [forceRender, setForceRender] = useState(false);
-  const flatListRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
-  const buttonBackgroundColor = isChecked ? colors.purple : colors.lightGrey;
   const { t } = useTranslation();
   const { language, changeLanguage } = useContext(LanguageContext);
+  const [currentLanguage, setCurrentLanguage] = useState("en-US");
 
-  const renderItem = ({ item, index }) => {
-    const isSelected = index === selectedIndex;
-    return (
-      <TouchableOpacity
-        style={[styles.itemContainer, isSelected && styles.selectedItem]}
-        onPress={() => handleLanguagePress(index)}
-      >
-        <Typography
-          text={item}
-          style={[styles.itemText, isSelected && styles.selectedText]}
-        />
-      </TouchableOpacity>
-    );
-  };
   useFocusEffect(
     useCallback(() => {
       const resetUI = async () => {
@@ -72,37 +53,6 @@ const WelcomeScreen = ({ navigation, route }) => {
     }, [])
   );
 
-  const handleScroll = (event) => {
-    const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const totalWidth = (itemWidth + 10) * (DATA.length - 1);
-    const currentScrollPosition = contentOffsetX + width;
-    const index = Math.floor(contentOffsetX / (itemWidth + 11));
-    setShowLeftArrow(index > 0);
-    setShowRightArrow(currentScrollPosition < totalWidth - 1);
-  };
-
-  const handleBackPress = async () => {
-    if (selectedIndex > 0) {
-      const newIndex = selectedIndex - 1;
-      setSelectedIndex(newIndex);
-      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
-      await handleLanguagePress(newIndex);
-    }
-  };
-
-  const handleForwardPress = async () => {
-    if (selectedIndex < DATA.length - 1) {
-      const newIndex = selectedIndex + 1;
-      setSelectedIndex(newIndex);
-      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
-      setShowLeftArrow(newIndex > 0);
-      setShowRightArrow(newIndex < DATA.length - 1);
-      await handleLanguagePress(newIndex);
-    }
-  };
-
-  const [currentLanguage, setCurrentLanguage] = useState("en-US");
-
   const handleLanguagePress = async (index) => {
     setSelectedIndex(index);
     const selectedLanguage = DATA[index];
@@ -110,12 +60,24 @@ const WelcomeScreen = ({ navigation, route }) => {
     changeLanguage(languageCode);
     if (RTL_LANGUAGES.includes(languageCode)) {
       I18nManager.forceRTL(true);
+      setCurrentLanguage(languageCode);
     } else {
       I18nManager.forceRTL(false);
+      setCurrentLanguage(languageCode);
     }
     setForceRender((prev) => !prev);
   };
 
+  let logoSource;
+  
+  if (language === "en-US" || language === "fr-FR") {
+    logoSource = require("../assets/EnglishLogo.png");
+  } else if (language === "ar-AM" || language === "ar-EG") {
+    logoSource = require("../assets/ArabicLogo.png");
+  } else if (language === "fc-FC") {
+    logoSource = require("../assets/EnglishLogo.png");
+  }
+  
   const handleStartPress = async () => {
     if (!isChecked) {
       Alert.alert(t("startAlert.title"), `${t("startAlert.body")}`);
@@ -127,27 +89,28 @@ const WelcomeScreen = ({ navigation, route }) => {
     await AsyncStorage.setItem("language", languageCode);
     navigation.navigate("RegisterScreen");
   };
+
   const textAlign = RTL_LANGUAGES.includes(currentLanguage) ? "right" : "left";
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <Image
-          source={require("../assets/logo.png")}
+          source={logoSource}
           style={styles.logo}
+          resizeMode="contain" 
           animated={true}
         />
-        <Typography
-          text={t("home.title")}
-          style={styles.welcomeTextEnglish}
-          fontFamily="Cairo-Bold"
-          size={64}
-          color={colors.purple}
-        />
+      
         <Typography
           text={t("home.welcome")}
-          style={[styles.smallText, { textAlign }]}
+          style={{ textAlign }}
           padding={20}
+          top={10}
+          size={24}    
+          fontFamily="Raleway"
+          fontWeight="400" 
+          width='90%'     
         />
 
         <View style={styles.progressIndicatorContainer}>
@@ -159,86 +122,61 @@ const WelcomeScreen = ({ navigation, route }) => {
               },
             ]}
           />
-          {DATA.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.progressDot,
-                selectedIndex === index ? styles.activeDot : styles.inactiveDot,
-              ]}
-            />
-          ))}
         </View>
 
         <View style={styles.listContainer}>
-          {showLeftArrow && (
-            <TouchableOpacity onPress={handleBackPress}>
-              <Ionicons
-                name="caret-back-outline"
-                size={32}
-                color={colors.purple}
-                style={styles.iconLeftContainer}
+          {DATA.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.itemContainer, selectedIndex === index && styles.selectedItem]}
+              onPress={() => handleLanguagePress(index)}
+            >
+              <Typography
+                text={item}
+                color={selectedIndex === index ? colors.white : colors.black}
+                style={[styles.itemText, selectedIndex === index && styles.selectedText]}
+                size={24}
+                fontFamily="Raleway"
+                fontWeight="400"
               />
             </TouchableOpacity>
-          )}
-
-          <View style={styles.flatlistContainer}>
-            <FlatList
-              data={DATA}
-              ref={flatListRef}
-              horizontal
-              renderItem={renderItem}
-              keyExtractor={(item) => item}
-              snapToAlignment="start"
-              snapToInterval={itemWidth + 10}
-              decelerationRate="fast"
-              showsHorizontalScrollIndicator={false}
-              extraData={forceRender}
-              onScroll={handleScroll}
-              scrollEventThrottle={16}
-            />
-          </View>
-          {showRightArrow && (
-            <TouchableOpacity onPress={handleForwardPress}>
-              <Ionicons
-                name="caret-forward-outline"
-                size={32}
-                color={colors.purple}
-                style={styles.iconRightContainer}
-              />
-            </TouchableOpacity>
-          )}
+          ))}
         </View>
+
         <TouchableOpacity
           style={[
             styles.startButton,
-            { backgroundColor: buttonBackgroundColor },
+            { backgroundColor: isChecked ? colors.black : '#00000080' }, 
           ]}
           onPress={handleStartPress}
           disabled={!isChecked}
         >
           <Typography
             text={t("home.startButton")}
-            style={styles.buttonText}
             color={colors.white}
-            size={20}
-            marginTop={10}
+            size={40}
+            fontWeight="700"
+            fontFamily="Raleway"
+            top={-5}
           />
         </TouchableOpacity>
 
         <View style={styles.termsContainer}>
-          <CheckBox
-            checked={isChecked}
-            onPress={() => setIsChecked(!isChecked)}
-            containerStyle={styles.checkboxContainer}
-            checkedColor={colors.purple}
+          <Checkbox
+            isChecked={isChecked}
+            onPress={() => setIsChecked(!isChecked)} 
           />
           <Typography
             text={t("home.terms")}
-            style={styles.termsText}
             size={14}
             paddingTop={10}
+            fontWeight="300"
+            fontFamily="Raleway"
+            right={5}
+            left={5}
+            style={{ textAlign }}
           />
+          
         </View>
       </View>
     </ScrollView>
@@ -266,95 +204,47 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  iconLeftContainer: {
-    paddingLeft: 10,
-    marginHorizontal: 5,
-  },
-  iconRightContainer: {
-    paddingRight: 10,
-    marginHorizontal: 5,
-  },
-
-  flatlistContainer: {
-    flex: 1,
-  },
-
   itemContainer: {
-    width: width / 4,
-    height: 40,
+    width: width / 5,
+    height: 48,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: colors.lightGrey,
+    borderColor: colors.black,
     marginHorizontal: 5,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   selectedItem: {
-    borderColor: colors.purple,
+    borderColor: colors.black,
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: colors.black,
   },
   itemText: {
-    fontSize: 16,
+    fontSize: 24,
   },
   selectedText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    color: colors.white,
   },
   logo: {
-    width: 200,
-    height: 200,
-    marginTop: 70,
-  },
-  welcomeTextEnglish: {
-    color: colors.purple,
-    textAlign: "center",
-  },
-  smallText: {
-    color: colors.darkGrey,
-    paddingVertical: 10,
-  },
-  progressIndicatorContainer: {
-    flexDirection: "row",
-    paddingRight: 40,
-  },
-  progressDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginHorizontal: 5,
-    marginVertical: 25,
-  },
-  activeDot: {
-    backgroundColor: colors.purple,
-  },
-  inactiveDot: {
-    backgroundColor: colors.inactive,
+    width: 122,
+    height: 169,
+    marginTop: 137,
   },
   startButton: {
-    width: "80%",
+    width: "90%",
     height: 60,
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 10,
     marginTop: 20,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: "bold",
+    justifyContent: "center",
+    alignItems: "center",
   },
   termsContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
-  },
-  checkboxContainer: {
-    backgroundColor: "transparent",
-    borderWidth: 0,
-    marginRight: -5,
-  },
-  termsText: {
-    color: colors.black,
-    fontSize: 16,
   },
 });
 

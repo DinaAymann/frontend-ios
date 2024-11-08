@@ -45,6 +45,7 @@
     "reSendinCode": "إعادة الإرسال خلال"
   },
   "success": {
+    "title": "مبروك!",
     "body": "تم تأكيد حسابك بنجاح!!",
     "confirmButton": "استمر"
   },

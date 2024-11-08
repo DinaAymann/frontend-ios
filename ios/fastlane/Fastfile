@@ -14,27 +14,15 @@
 # update_fastlane
 
 default_platform(:ios)
-#45   
+
 platform :ios do
   desc "Push a new beta build to TestFlight"
-  lane :beta do  
-    #disable_automatic_code_signing
-    update_code_signing_settings
-    update_project_provisioning(
-      xcodeproj: "Ramses.xcodeproj",
-      #profile: "bfe6965a-5d3a-406b-b29b-104a444bdd7a",
-      profile: "profileProvision.mobileprovision",
-      build_configuration: "Release",
-      code_signing_identity: "iPhone Distribution"
-    )
-    update_project_team(
-      path: "Ramses.xcodeproj",
-      teamid: "3CHW67J632"
-    )
+  lane :beta do
     match( app_identifier: "com.ranareda1.RamsesSuperApp",type: "appstore" )
     #increment_build_number(xcodeproj: "Ramses.xcodeproj")
-    build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses", export_team_id: "3CHW67J632", export_options: {method: "app-store"})
-    upload_to_testflight
+    build_app(workspace: "Ramses.xcworkspace", scheme: "Ramses")
+    #upload_to_testflight
     pilot(api_key_path: "fastlane/store.json", skip_waiting_for_build_processing: true)
+
   end
 end
