@@ -59,10 +59,10 @@ jobs:
       #     bundler-cache: true
       #     working-directory: ios
 
-       - name: Install ruby
-        run: brew install ruby 
+      - name: Install ruby
+        run: brew install ruby
         with:
-           ruby-version: "3.1"
+          ruby-version: "3.1"
 
       # - name: Install Bundler
       #   run: gem install bundler -v 2.4.22
