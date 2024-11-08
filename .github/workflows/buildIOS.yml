@@ -95,16 +95,25 @@ jobs:
         env:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_FG_TOKEN }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          #APP_STORE_CONNECT_KEY_ID: ${{ secrets.INDIVIDUAL_ID }}
-          #APP_STORE_CONNECT_API_KEY: ${{ secrets.INDIVIDUAL_CONTENT }}
           ASC_JSON_KEY: ${{ secrets.APP_STORE_JSON_SECRET }}
-          #FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
-          #FASTLANE_SESSION: ${{secrets.FATLANE_SESSION}}
-          #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
-          #FASTLANE_APPLE_APP_PASSWORD:s ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
-          bundle exec fastlane ios beta
+          bundle exec fastlane ios buildOnly
+
+      # - name: Build and Deploy using Fastlane
+      #   env:
+      #     MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_FG_TOKEN }}
+      #     MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      #     #APP_STORE_CONNECT_KEY_ID: ${{ secrets.INDIVIDUAL_ID }}
+      #     #APP_STORE_CONNECT_API_KEY: ${{ secrets.INDIVIDUAL_CONTENT }}
+      #     ASC_JSON_KEY: ${{ secrets.APP_STORE_JSON_SECRET }}
+      #     #FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
+      #     #FASTLANE_SESSION: ${{secrets.FATLANE_SESSION}}
+      #     #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
+      #     #FASTLANE_APPLE_APP_PASSWORD:s ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
+      #   run: |
+      #     cd ios
+      #     bundle exec fastlane ios beta
       # - name: Build and Deploy
       #   env:
       #     APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
