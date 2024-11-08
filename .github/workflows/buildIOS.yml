@@ -53,11 +53,16 @@ jobs:
       #   with:
       #     xcode-version: latest-stable
 
-      - uses: ruby/setup-ruby@v1
+      # - uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: "3.3"
+      #     bundler-cache: true
+      #     working-directory: ios
+
+       - name: Install ruby
+        run: brew install ruby 
         with:
-          ruby-version: "3.3"
-          bundler-cache: true
-          working-directory: ios
+           ruby-version: "3.1"
 
       # - name: Install Bundler
       #   run: gem install bundler -v 2.4.22
