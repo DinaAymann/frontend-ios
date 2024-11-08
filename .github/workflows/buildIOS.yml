@@ -19,7 +19,7 @@ on:
   #     - "main"
   push:
     branches:
-      - "main"
+      - "ci/cd"
 
 permissions:
   contents: read
@@ -55,17 +55,17 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3"
+          ruby-version: "3.1"
           bundler-cache: true
           working-directory: ios
 
-      - name: Install Bundler
-        run: gem install bundler -v 2.4.22
+      # - name: Install Bundler
+      #   run: gem install bundler -v 2.4.22
 
-      - name: Install gems
-        run: |
-          cd ios
-          bundle install
+      # - name: Install gems
+      #   run: |
+      #     cd ios
+      #     bundle install
 
       # - name: flutter setup
       #   uses: subosito/flutter-action@v2
@@ -92,9 +92,9 @@ jobs:
           #APP_STORE_CONNECT_KEY_ID: ${{ secrets.INDIVIDUAL_ID }}
           #APP_STORE_CONNECT_API_KEY: ${{ secrets.INDIVIDUAL_CONTENT }}
           ASC_JSON_KEY: ${{ secrets.APP_STORE_JSON_SECRET }}
-          FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
-          FASTLANE_SESSION: ${{secrets.FATLANE_SESSION}}
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
+          #FASTLANE_PASSWORD: ${{secrets.PASSWORD}}
+          #FASTLANE_SESSION: ${{secrets.FATLANE_SESSION}}
+          #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{secrets.APP_PASSWORD}}
           #FASTLANE_APPLE_APP_PASSWORD:s ${{secrets.FASTLANE_APPLE_APP_PASSWORD}}
         run: |
           cd ios
