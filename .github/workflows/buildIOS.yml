@@ -62,13 +62,13 @@ jobs:
       - name: Install ruby
         run: brew install ruby
 
-      # - name: Install Bundler
-      #   run: gem install bundler -v 2.4.22
+      - name: Install Bundler
+        run: gem install bundler -v 2.4.22
 
-      # - name: Install gems
-      #   run: |
-      #     cd ios
-      #     bundle install
+      - name: Install gems
+        run: |
+          cd ios
+          bundle install
 
       # - name: flutter setup
       #   uses: subosito/flutter-action@v2
